@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<8uftp>
+<Settings>
+<Item name="Tool Normal Start" type="numeric">0</Item>
+<Item name="Default Folder" type="string">C:\Users\Administrator\Documents\</Item>
+<Item name="Last Window Size" type="string">0 222 88 1195 704</Item>
+<Item name="Last Splitter Pos" type="string">360 106 477 469 476</Item>
+<Item name="Pasv" type="numeric">1</Item>
+</Settings>
+<RecentServers/>
+<TransferQueue/>
+</8uftp>
