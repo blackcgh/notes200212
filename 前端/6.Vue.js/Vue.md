@@ -34,7 +34,7 @@ Vue是一套用于构建用户界面的**渐进式框架**。与其它大型框�
 
 MVVM 是 Model-View-ViewModel 的缩写。Model 转化成 View：数据绑定。View 转化成 ModelDOM：事件监听。这两个方向都实现的，就是数据的双向绑定
 
- <img src="https://img3.sycdn.imooc.com/5b9e13fc0001b19705560423.jpg" alt="img" style="zoom:67%;" /> 
+  													<img src="E:\HTML源代码\imagesrc\mvvm.png" style="zoom:50%;" />
 
 ```te
 1. 各部分之间的通信，都是双向的
@@ -60,7 +60,7 @@ MVVM采用双向绑定（data-binding）：View 的变动，自动反映在 View
 - 控制器（Controller）：业务逻辑
 - 模型（Model）：数据保存
 
- <img src="http://www.ruanyifeng.com/blogimg/asset/2015/bg2015020105.png" alt="img" style="zoom: 67%;" /> 
+<img src="E:\HTML源代码\imagesrc\mvc.png" style="zoom: 50%;" />
 
 ```tex
 1. View 传送指令到 Controller
@@ -74,14 +74,14 @@ MVVM采用双向绑定（data-binding）：View 的变动，自动反映在 View
 
 
 
-## Vue选项
+## Vue 选项
 
 ==在Vue实例中，不能使用箭头函数定义==
 
 Vue实例的作用范围是挂载元素及其内部元素；一般使用id选择器；可以设置除了html和body之外的其他双标签，但建议使用div
 
 ```js
-let app = new Vue({	// Vue是一个构造函数，接受一个对象作为参数
+let app = new Vue({									// Vue是一个构造函数，接受一个对象作为参数
   el: '#app',
   
   data: {
@@ -94,7 +94,7 @@ let app = new Vue({	// Vue是一个构造函数，接受一个对象作为参数
   },
   
   props: {
-    height: [Number, String],		// 指定多种数据类型
+    height: [Number, String],
     figure: {
       type: Object,
       default() {
@@ -139,9 +139,9 @@ let app = new Vue({	// Vue是一个构造函数，接受一个对象作为参数
 
   提供一个在页面上已存在的 DOM 元素作为 Vue 实例的挂载目标。可以是 CSS 选择器，也可以是一个 HTMLElement 实例。在实例挂载之后，元素可以用 `app.$el` 访问。
   
-  如果在实例化时存在el属性，实例将立即进入编译过程，否则，需要调用 `app.$mount()` 手动开启编译。
+  如果在实例化时存在 el 属性，实例将立即进入编译过程，否则，需要调用 `app.$mount()` 手动开启编译。
   
-  如果 `render` 函数和 `template` 属性都不存在，挂载 DOM 元素的 HTML 会被提取出来用作模板，此时，必须使用 Runtime + Compiler 构建的 Vue 库
+  ==如果 render 函数和 template 属性都不存在，挂载 DOM 元素的 HTML 会被提取出来用作模板，此时，必须使用 Runtime + Compiler 构建的 Vue 库==
 
 ---
 
@@ -153,9 +153,9 @@ let app = new Vue({	// Vue是一个构造函数，接受一个对象作为参数
 
 - 说明：用于存储数据
 
-  Vue实例创建后，可以通过app.data访问data属性。Vue 实例也代理了data对象上所有的属性，因此访问vm.a等价于访问vm.$data.a。
+  Vue 实例创建后，可以通过 app.data 访问 data 属性。Vue 实例也代理了 data 对象上所有的属性，因此访问app.a 等价于访问 app.$data.a。
 
-  组件的data属性是返回一个初始数据对象的函数，因为组件可能被用来创建多个实例。如果data是一个纯粹的对象，则所有的实例将共享引用同一个数据对象！而data函数每次创建新实例后，都能调用data函数，从而返回一个全新的数据对象。另外，组件的data不要使用箭头函数定义
+  组件的 data 属性是返回一个初始数据对象的函数，因为组件可能被用来创建多个实例。如果 data 是一个纯粹的对象，则所有的实例将共享引用同一个数据对象！而 data 函数每次创建新实例后，都能调用 data 函数，从而返回一个全新的数据对象。另外，组件的 data 不要使用箭头函数定义
 
 ---
 
@@ -165,11 +165,11 @@ let app = new Vue({	// Vue是一个构造函数，接受一个对象作为参数
 
 - 类型：`{ [key: string]: Function | { get: Function, set: Function } }`
 
-- 说明：对于任何复杂逻辑，应当使用计算属性，而不是methods属性 。
+- 说明：对于任何复杂逻辑，应当使用计算属性，而不是methods属性 
 
-  不同于methods属性，计算属性是基于响应式依赖进行缓存的。如果使用到该属性，只要依赖的响应式属性发生变化，就会调用函数重新计算。注意，如果某个依赖 (非响应式属性) 在该实例范畴之外，则计算属性是不会被更新的。
+  不同于 methods 属性，计算属性是基于响应式依赖进行缓存的。如果使用到该属性，只要依赖的响应式属性发生变化，就会调用函数重新计算。注意，如果某个依赖 (非响应式属性) 在该实例范畴之外，则计算属性是不会被更新的。
   
-  如果在使用计算属性时要传入参数，可以在定义计算属性时发挥一个函数
+  如果在使用计算属性时要传入参数，可以在定义计算属性时返回一个带参函数
   
   ```js
   computed: {							// 定义
@@ -194,7 +194,7 @@ let app = new Vue({	// Vue是一个构造函数，接受一个对象作为参数
   - default：指定默认值，==对象或数组的默认值必须从一个工厂函数返回==
   - required：是否必填
   - validator：自定义验证函数
-- 说明：props用于接收来自父组件的数据，子组件使用其值而不要修改；data存储组件本身的数据，可修改；
+- 说明：props 用于接收来自父组件的数据，子组件不要修改其值；data 存储组件本身的数据，可修改
 
 ---
 
@@ -203,7 +203,7 @@ let app = new Vue({	// Vue是一个构造函数，接受一个对象作为参数
 ### methods
 
 - 类型：`{ [key: string]: Function }`
-- 说明：methods将被混入到 Vue 实例中。可以直接通过实例访问这些方法，或者在指令表达式中使用。方法中的 `this` 自动绑定为 Vue 实例
+- 说明：methods 将被混入到 Vue 实例中。可以直接通过实例访问这些方法，或者在指令表达式中使用。方法中的 `this` 自动绑定为 Vue 实例
 
 ---
 
@@ -212,7 +212,7 @@ let app = new Vue({	// Vue是一个构造函数，接受一个对象作为参数
 ### watch
 
 - 类型：`{ [key: string]: Function | string | Object | Array }`
-- 说明：一个对象，键是需要观察的表达式（data里面的数据），值是对应回调函数（参数是newvalue、oldvalue），也可以是方法名，或者包含选项的对象。用于观察和响应 Vue 实例上的数据变动
+- 说明：一个对象，键是需要观察的表达式（data 里面的数据），值是对应回调函数（参数是 newvalue、oldvalue），也可以是方法名，或者包含选项的对象。用于观察和响应 Vue 实例上的数据变动
 
 ---
 
@@ -221,10 +221,10 @@ let app = new Vue({	// Vue是一个构造函数，接受一个对象作为参数
 ### filters
 
 - 类型：`Object`
-- 说明：过滤器由“|”符号指示，mustache插值和 v-bind 表达式都可以使用
+- 说明：过滤器由“|”符号指示，mustache 插值和 v-bind 表达式都可以使用
 
 ```js
-{{ mes | myMethod }} //mes作为过滤函数的第一个参数
+{{ mes | myMethod }} 										// mes作为过滤函数的第一个参数
 <div :id="mes | 函数名"></div>
 
 filters: { 
@@ -239,7 +239,17 @@ filters: {
 ### components
 
 - 类型：`Object`
-- 说明：Vue实例注册局部组件
+- 说明：Vue 实例注册局部组件
+
+---
+
+
+
+### name
+
+- 类型：`string`
+- 限制：只有作为组件选项时才有效
+- 说明：指定组件名字（用于keep-alike）。注意`Vue.component()`注册时，全局 ID 自动作为组件的 name。
 
 ---
 
@@ -249,11 +259,10 @@ filters: {
 
 - 类型：`string`
 
-- 说明：template模板会替换el管理的元素。如果 Vue 选项中包含渲染函数render，该模板将会被忽略。 ==如果存在template属性，必须使用 Runtime + Compiler 构建的 Vue 库==
+- 说明：template 模板会替换 el 管理的元素。如果 Vue 选项中包含渲染函数 render，该模板将会被忽略。 ==如果存在 template 属性，必须使用 Runtime + Compiler 构建的 Vue 库==
 
   ```js
-// 需要运行时+编译器
-  new Vue({
+new Vue({														// 需要运行时+编译器
     template: `<div>{{ hi }}</div>`
   })
   ```
@@ -265,11 +274,10 @@ filters: {
 ### render
 
 - 类型：
-- 说明：渲染函数接收一个 `createElement` 方法作为第一个参数用来创建 `VNode`，render创建的元素也会替换挂载元素
+- 说明：渲染函数接收一个 `createElement` 方法作为第一个参数用来创建 `VNode`，render 创建的元素也会替换挂载元素， 如果存在 render，可以使用 Runtime + only 构建的 Vue 库
 
 ```js
-// 不需要编译器runtime-compiler
-new Vue({
+ new Vue({
   render (createElement) {
     return createElement('div', this.hi)
   }
@@ -277,7 +285,10 @@ new Vue({
 ```
 
 ```js
-createElement('标签名'[, {标签属性}], [标签文本])
+createElement(tag[, obj, arr])
+/* tag: 标签名称
+	 obj: 添加标签属性
+	 arr: 添加文本内容 */
 ```
 
 ---
@@ -295,19 +306,19 @@ createElement('标签名'[, {标签属性}], [标签文本])
 
 ### hook--生命周期钩子函数
 
-- **befortCreate**：实例创建之前执行
+- **beforeCreate**：实例创建之前执行
 
 - **created**：实例创建后执行，`$el` 属性还不可见
 
-- **befortMount**：挂载开始之前执行：相关的 `render` 函数首次被调用。 该钩子在服务器端渲染期间不被调用
+- **beforeMount**：挂载开始之前执行：相关的 `render` 函数首次被调用。 该钩子在服务器端渲染期间不被调用
 
 - **mounted**：`el`被新创建的`vm.$el`替换，并挂载到实例后调用该钩子
 
-- **befortUpdate**：数据更新时调用
+- **beforeUpdate**：数据更新时调用
 
 - **updated**：由于数据更改导致虚拟DOM重新渲染和，更新后调用。该钩子在服务器端渲染期间不被调用
 
-- **befortDestroy**：Vue实例销毁之前调用。此时实例仍然可用
+- **beforeDestroy**：Vue实例销毁之前调用。此时实例仍然可用
 
 - **destroyed**：实例销毁后调用。调用后，Vue 实例指示的所有东西都会解绑定，所有的事件监听器会被移除，
 
@@ -342,25 +353,32 @@ $attrs			//
 ## 实例方法
 
 ```js
-$mount([elementOrselector])		// 如果实例没有el选项，可以使用该方法手动挂载一个未挂载的DOM元素
-$on('event', callback)				// 监听实例的自定义事件event。callback会接收事件触发函数的额外参数
-$off(['event', callback])			// 移除自定义事件event，如果没有event，将移除实例的所有事件
+// 生命周期
+$mount([elementOrselector])			// 如果实例没有el选项，可以使用该方法手动挂载一个未挂载的DOM元素
+$nextTick(callback)							// 修改数据、DOM渲染后调用（在updated之后）
+
+// 事件
+$on('event', callback)					// 监听实例的自定义事件event。callback会接收事件触发传染的参数
+$off(['event', fnname])					// 移除自定义事件event，如果没event，将移除实例的所有事件监听器
 $emit('eventName'[, ...args])		// 用来触发事件eventNmae，args是传递给监听函数的参数
-$once('event', callback)			  // 用来监听实例上的自定义事件，但只触发一次，触发后会被移除
+$once('event', callback)		 	  // 用来监听实例上的自定义事件，但只触发一次，触发后会被移除
 ```
 
 ---
 
 
 
-## 全局API
+## 全局 API
 
 ```js
-Vue.extend(options)							// Vue构造函数创建一个子类（构造器）。参数是一个包含组件选项的对象
-Vue.component(id[,definition])	// 注册或根据id获取全局组件。id是组件的名称
+Vue.extend(options)							// 创建并返回组件构造器。参数是包含组件选项的对象，可以new组件对象
+Vue.component(name[,obj])				// 注册/获取全局组件，obj会传到extend方法
 Vue.use(plugin)									// 安装Vue插件。如果plugin是对象，必须提供install方法。如果是																	   函数，它就是install方法。调用install时，默认将Vue当参数传入
-Vue.set(tar,prop/ind,val)				// tar是数组或对象，向tar添加一个响应式的属性或元素
-Vue.delete(tar,prop/ind)				// 删除tar的属性或元素
+Vue.set(target,prop,val)			  // target是数组或对象，向tar添加一个响应式的属性或元素
+Vue.delete(target,prop)				  // 删除taregt的属性或元素
+Vue.directive(name[,obj])				// 注册/获取全局指令,definition是对象，使用指令要加v-
+Vue.filter(name[,fn])						// 注册/获取全局过滤器，definition是函数
+Vue.compile(template)						// 将模板字符串编译成render函数并返回，runtime-only环境不能使用
 ```
 
 ---
@@ -369,37 +387,56 @@ Vue.delete(tar,prop/ind)				// 删除tar的属性或元素
 
 ## 特殊属性
 
-- **key属性管理可复用的元素**
+### key
 
-  ```html
-  <!-- Vue会高效地渲染元素(经过虚拟DOM，再渲染到浏览器)，通常会复用已有元素而不是从头开始渲染。这么做除了使Vue变得非常快之外，还有其它一些好处。例如，如果允许用户在不同的登录方式之间切换 -->
-  <!-- key说明：具有唯一值，用于强制替换元素/组件，而不是重复使用它 -->
-  <!-- key和v-if -->
-  <template v-if="isTrue"><!-- 该例不会清除已经输入的内容，因为使用元素相同 -->
-    <label>Username</label><input placeholder="username">
-  </template>
-  <template v-else>
-    <label>Email</label><input placeholder="email">
-  </template>
-  
-  <!-- 使用key表示不要复用input元素，而label元素仍然可以高效复用 -->
-  <template v-if="isTrue">
-    <label>Username</label><input placeholder="username" key="username">
-  </template>
-  <template v-else>
-    <label>Email</label><input placeholder="Enter your email address" key="email">
-  </template>
-  
-  <!-- key和v-for -->
-  <li v-for="item in items" :key="item.id">...</li>
-  ```
+```html
+<!-- Vue会高效地渲染元素(经过虚拟DOM，再渲染到浏览器)，通常会复用已有元素而不是从头开始渲染。这么做除了使Vue变得非常快之外，还有其它一些好处。例如，如果允许用户在不同的登录方式之间切换 -->
+<!-- key说明：具有唯一值，用于强制替换元素/组件，而不是重复使用它 -->
+<!-- key和v-if -->
+<template v-if="isTrue"><!-- 该例不会清除已经输入的内容，因为使用元素相同 -->
+  <label>Username</label><input placeholder="username">
+</template>
+<template v-else>
+  <label>Email</label><input placeholder="email">
+</template>
 
-- **ref**
+<!-- 使用key表示不要复用input元素，而label元素仍然可以高效复用 -->
+<template v-if="isTrue">
+  <label>Username</label><input placeholder="username" key="username">
+</template>
+<template v-else>
+  <label>Email</label><input placeholder="Enter your email address" key="email">
+</template>
+
+<!-- key和v-for -->
+<li v-for="item in items" :key="item.id">...</li>
+```
+
+---
+
+
+
+### ref
 
 ```html
 <!-- 用来给元素或子组件注册引用信息。引用信息将会注册在父组件的 $refs 对象上。如果在DOM元素上使用，引用指向的就是DOM元素；如果用在子组件上，引用就指向组件实例 -->
-<p ref="p">hello</p><!-- app.$refs.p === 该元素 -->
-<child-component ref="child"></child-component><!--app.$refs.child === 该子组件  -->
+<p ref="p">hello</p>																<!-- app.$refs.p==该元素 -->
+<child-component ref="child"></child-component>			<!--app.$refs.child==该子组件-->
+```
+
+---
+
+
+
+### is
+
+```html
+<!-- 用于动态组件且基于 DOM 模板的限制来工作 -->
+<component :is="currentView"></component>				<!-- currentView改变时，组件也改变 -->
+
+<table>
+  <tr is="my-row"></tr>					<!-- 直接使用组件是无效的 -->
+</table>
 ```
 
 ---
@@ -411,22 +448,19 @@ Vue.delete(tar,prop/ind)				// 删除tar的属性或元素
 ### keep-alive
 
 ```html
-<!-- 属性：
-			include - 字符串或正则表达式。只有名称匹配的组件会被缓存，默认全部缓存。
-			exclude - 字符串或正则表达式。任何名称匹配的组件都不会被缓存。
-			max - 数字。最多可以缓存多少组件实例。
--->
-<!-- 用法：
-			1. 包裹动态组件时，会缓存不活动的组件实例，而不是销毁它们。<keep-alive> 是一个抽象组件：它						 自身不会渲染DOM元素，也不会出现在父组件链中
-			2. 当组件在 <keep-alive> 内被切换，它的 activated 和 deactivated 生命周期钩子函数				   	   将会被对应执行
-				 2.1 当使用kepp-alive的组件处于激活状态，执行activated函数
-				 2.2 当组件不处于激活状态，执行deactivated函数
--->
 <keep-alive exclude="a,b">
   <a></a>
   <b></b>
   ...
 </keep-alive>
+<!-- 属性：
+			include - 字符串或正则表达式。只有名称匹配的组件会被缓存，默认全部缓存。
+			exclude - 字符串或正则表达式。任何名称匹配的组件都不会被缓存。
+			max - 数字。最多可以缓存多少组件实例。 -->
+<!-- 用法：
+			1. 包裹动态组件时，会缓存不活动的组件实例，而不是销毁它们。<keep-alive> 是一个抽象组件：它						 自身不会渲染DOM元素，也不会出现在父组件链中
+			2. 当组件在 <keep-alive> 内被切换，它的 activated 和 deactivated 生命周期钩子函数				   	   将会被对应执行
+			3. 没有被 keep-alive 组件包含的组件不能使用这两个钩子函数 -->
 ```
 
 ---
@@ -436,13 +470,34 @@ Vue.delete(tar,prop/ind)				// 删除tar的属性或元素
 ### slot
 
 ```html
+<slot name="slotName"><slot>				<!-- 定义具名插槽 -->
 <!-- 属性：
-			name - string，用于命名插槽，默认名字是default
--->
-<!-- 用法：
-			<slot> 元素作为组件模板之中的内容分发插槽。<slot> 元素自身将被替换
--->
-<slot name="slotName"><slot>	<!-- 定义一个有名字的插槽 -->
+			name：用于命名插槽，默认名字是default
+			绑定的自定义属性（插槽属性） -->
+<!-- 用法：<slot>元素作为组件模板之中的内容分发插槽。<slot>元素自身将被替换 -->
+```
+
+---
+
+
+
+### component
+
+**动态组件：**多个组件使用同一个挂载点，并动态切换
+
+```html
+<component :is="componentId"></component>
+<!-- 属性：is - 组件的name，或组件构造器选项对象-->
+```
+
+---
+
+
+
+### transition
+
+```html
+
 ```
 
 ---
@@ -514,27 +569,25 @@ Vue.delete(tar,prop/ind)				// 删除tar的属性或元素
 - **v-for**
 
   ```html
-  <!-- 类型： Array | Object | number | string | Iterable -->
+  <!-- 类型： Array | Object | Number | String | Iterable -->
   <!-- 基于源数据多次渲染元素或模板块,当和v-if一起使用时，v-for的优先级更高 -->
-  <div v-for="(item, index) in items"></div>
-  <div v-for="(val, name, index) in object"></div>
-  <!--一般v-for结合key属性使用-->
-  <!--key是为了高效的更新虚拟DOM（key是唯一标识）-->
-  <div v-for="item in items" :key="item.id">{{ item.text }}</div>
+  <div v-for="(item, index) in items" :key="item.id"></div>
+  <div v-for="(val, name, index) of object" :key="val.id"></div>		<!-- of 代替in -->
   ```
-
+  
 - **v-bind**
 
   ```html
-  <!-- 缩写 : -->
-  <!-- 动态绑定属性 -->
-  <!--  -->
+  <!-- 缩写 ':',用于动态绑定属性值 -->
   <img :src="imageSrc">
-  <button :[key]="value"></button><!-- 动态绑定 -->
-  <img :src="'/path/' + fileName"><!-- 字符串拼接 -->
-  <!-- class 绑定语法：{类名: boolean}，还可以与普通的class共存-->
+  <button :[key]="value"></button>				<!-- 动态绑定属性名、值 -->
+  <img :src="'/path/' + fileName">				<!-- 字符串拼接 -->
+  
+  <!-- class 绑定语法：{类名: boolean}，可与普通的 class 共存，或定义在 data选项中-->
   <div class="active" :class="{ red: isRed }"></div>
-  <div :style="{ fontSize: size + 'px' }"></div><!-- style绑定语法：{css属性: 变量} -->
+  
+  <!-- style 绑定语法：{css样式: 常/变量} -->
+  <div :style="{ fontSize: size + 'px' }"></div>
   ```
 
 - **v-on**
@@ -542,8 +595,7 @@ Vue.delete(tar,prop/ind)				// 删除tar的属性或元素
   ```html
   <!-- 缩写 @ -->
   <!-- 预期：Function | Inline Statement | Object -->
-  <!-- 绑定事件监听器。事件类型由参数指定。表达式可以是一个方法的名字或一个内联语句 -->
-  <!-- v-on:参数 = Function -->
+  <!-- 绑定事件监听器，表达式可以是一个方法的名字或内联语句。语法：v-on:事件类型 = Function -->
   <button v-on:click="doThis"></button>
   <button @[event]="doThis"></button><!-- 动态事件 -->
   <button @click.stop.prevent="doThis"></button><!--  串联修饰符 -->
@@ -551,25 +603,24 @@ Vue.delete(tar,prop/ind)				// 删除tar的属性或元素
   <!-- 修饰符：
   			.stop - 调用event.stopPropagation()
   			.prevent - 调用 event.preventDefault()。
-  			.self - 只当事件是从侦听器绑定的元素本身触发时才触发回调。
-  			.{keyCode | keyAlias} - 只当事件是从特定键触发时才触发回调。
+  			.self - 只当事件是从侦听器绑定的元素本身触发时才触发回调
   			.native - 监听组件根元素的原生事件，在父组件里子组件添加事件时使用
-  			.once - 只触发一次回调。
+  			.once - 只触发一次回调，还能用于自定义事件
+  			.{keyCode | keyAlias} - 只当事件是从特定键触发时才触发回调，还有鼠标的left、right等
   -->
   <!-- 定义函数的参数时：
-  			1.没有参数，事件调用时函数可以不用写()
-  			2.有一个参数，事件调用函数
-  				2.1不写 () 时，Vue会将浏览器生成的event事件对象作为参数传递
-  				2.2写 () 时，函数的参数都是undefined
-  				2.3有实际参数时，函数的形参就是实参
-  			3.多个参数，事件调用函数
-  				3.1不写()时，默认第一个是event，其余为undefined
-  				3.2写()时，参数都是undefined
-  				3.3实参传给形参，没有实参的都是undefined
-  			4.如果想手动获取事件对象event作为参数传递，使用$event
-  -->
+  			1. 没有参数，事件调用时函数可以不用写()
+  			2. 有一个参数，事件调用函数
+  					2.1 不写 () 时，Vue会将浏览器生成的event事件对象作为参数传递
+  					2.2 写 () 时，函数的参数都是undefined
+  					2.3 有实际参数时，函数的形参就是实参
+  			3. 多个参数，事件调用函数
+  					3.1 不写()时，默认第一个是event，其余为undefined
+  					3.2 写()时，参数都是undefined
+  					3.3 实参传给形参，没有实参的都是undefined
+  			4. 如果想手动获取事件对象event作为参数传递，使用$event -->
   ```
-
+  
 - **v-model**
 
   ```html
@@ -609,10 +660,9 @@ Vue.delete(tar,prop/ind)				// 删除tar的属性或元素
   			.lazy - v-model默认input事件触发后值与数据进行同步，而lazy使用change事件（失焦、回车）
   			.number - v-model默认传递的值类型是字符串，number可以将值类型转为数值类型
   			.trim - 过滤用户输入的值的首尾空白字符
-  
   -->
   ```
-
+  
 - **v-slot**
 
   ```html
@@ -620,8 +670,8 @@ Vue.delete(tar,prop/ind)				// 删除tar的属性或元素
   <!-- 作用：指定具名插槽或需要接收 prop 的插槽 -->
   <!-- 限制：v-slot只能添加在<template>标签上 -->
   <base-layout>
-  <template v-slot:header>content</template>	<!-- 指定名字为header的插槽 -->
-    <template v-slot:item="slotProps">	<!-- 接收 prop 的具名插槽 -->
+  	<template v-slot:header>content</template>		<!-- 指定名字为header的插槽 -->
+    <template v-slot:item="slotProps">						<!-- 接收 prop 的具名插槽 -->
       <div>{{ slotProps.item.text }}</div>
     </template>
   </base-layout>
@@ -639,52 +689,51 @@ Vue.delete(tar,prop/ind)				// 删除tar的属性或元素
 
 
 
-## Vue组件
+## Vue 组件
 
 ### 介绍
 
-组件 (Component) 是Vue最强大的功能之一。
+组件 (Component) 是 Vue 最强大的功能之一。
 
-组件既是自定义标签，也是可复用的Vue实例（Vue()和Vue.extend()，而且==组件继承于Vue类的原型==），
+组件既是自定义标签，也是可复用的 Vue 实例（Vue() 和 Vue.extend()，而且组件继承于 Vue），
 
-组件和Vue实例一样，接受相同的选项对象，例如data、methods以及生命周期钩子等。只是没有 el 这样根实例特有的选项。
+组件和 Vue 实例一样，接受相同的选项对象，例如 data、methods 以及生命周期钩子等。只是没有 el 这样根实例特有的选项。
+
+注意：==任何组件的模板最外层必须用div标签==
 
 ```js
-Vue.component('my-cpn', {
-  template: ``,
+Vue.component('my-cpn', {					 // 全局注册，默认调用Vue.extend			
+  template: `...`,
   data() {return {}},
-  computed: {},
   methods: {},
   ...
 })
 ```
 
-组件的API：
+**组件 API：**
 
 ```js
-Vue.extend(选项对象)	// 创建组件构造器
-Vue.component('标签名', 组件构造器)	// 将构造器注册为组件，组件名必须字母全小写且包含一个连字符
+Vue.extend(compObj)								 // 创建组件构造器
+Vue.component('标签名', 组件构造器)		// 将构造器注册为组件，组件名必须字母全小写且包含一个连字符
 ```
 
-组件的使用：==组件模板必须放在div内==
+**使用：**
 
 ```js
-const cpnC = Vue.extend({				// 1.创建组件构造器
-  template: `<div>hello component</div>`	// 模板都要放在一个div里
+const cpnC = Vue.extend({					// 创建组件构造器
+  template: `<div>hello</div>`		// 模板都要放在一个div里
 })
-Vue.component('cpn', cpnC)		// 2.注册组件，这里是注册的是全局组件
-
-// <cpn></cpn>	3.在HTML文件Vue实例管理的元素内使用组件
+Vue.component('cpn', cpnC)				// 全局注册组件，通过<cpn></cpn>使用组件
 
 // 语法糖
-Vue.component('cpn', {		// 对象默认作为Vue.extend方法的参数
-  template: `<div>hello component</div>`
+Vue.component('cpn', {
+  template: `<div>hello</div>`
 })
 
-const app = Vue({
+const app = Vue({									// 局部注册组件
   components: {
     cpn: {
-  		template: `<div>hello component</div>`
+  		template: `<div>hello</div>`
 		}
   }
 })
@@ -692,11 +741,9 @@ const app = Vue({
 
 ```html
 <!-- 最终写法：模板分离结合ES6 -->
-<template>
-	<div>
-    hello component
-  </div>
-</template id="cpn">
+<template id="cpn">
+	<div>hello</div>
+</template>
 <script>
   const cpn = {
     template: '#cpn'
@@ -715,17 +762,9 @@ const app = Vue({
 
 ### 全局组件和局部组件
 
-全局组件：通过Vue.component()注册的组件，可以在任意一个Vue实例管理的元素内使用
+全局组件：通过 Vue.component 注册的组件，可以在任意一个 Vue 实例管理的元素内使用
 
-局部组件：在Vue实例的components选项注册的组件，只能在该Vue实例管理的元素内使用
-
-```js
-const app = Vue({
-  components: {
-    cpn: cpnC	// 组件cpn只能在实例管理的元素内使用
-  }
-})
-```
+局部组件：在 Vue 实例的 components 选项注册的组件，只能在该 Vue 实例管理的元素内使用
 
 ==注意：全局组件必须注册在Vue实例之前。==另外注册时组件名称单词首字母大写，使用时大写字母改为小写加-
 
@@ -735,11 +774,11 @@ const app = Vue({
 
 ### 父组件和子组件
 
-Vue组件的实质也是Vue实例，所以也有components选项。在组件的components选项注册的组件是子组件。
+Vue 组件实质也是 Vue 实例，所以也有 components 选项。在组件的 components 选项注册的组件是子组件。
 
 在哪里注册就只能在哪里使用，根组件不能使用子组件的子组件，因为：
 
-父组件会在components选项查找是否注册子组件，找不到就去查找全局组件，再找不到就报错。而且在编译期间父组件就将子组件的模板替换了子组件标签名，所以根组件不能使用子组件的子组件
+父组件会在 components 选项查找是否注册子组件，找不到就去查找全局组件，再找不到就报错。而且在编译期间父组件就将子组件的模板替换了子组件标签名，所以根组件不能使用子组件的子组件
 
 ```html
 <template id="mycpn1">
@@ -752,7 +791,7 @@ Vue组件的实质也是Vue实例，所以也有components选项。在组件的c
 	Vue.component('my-cpn2', {
     template: '#mycpn2',
     components: {
-      'my-cpn1': {			// my-cpn1是my-cpn2的子组件
+      'my-cpn1': {							 // my-cpn1 是 my-cpn2 的子组件
       	template: '#my-cpn1'
    	 }
     }
@@ -760,31 +799,24 @@ Vue组件的实质也是Vue实例，所以也有components选项。在组件的c
 </script>
 ```
 
-==注意：子组件的模板最外层必须用div标签==
-
 ---
 
 
 
-### 组件的data选项
+### 组件的 data 选项
 
-组件不能访问Vue实例的data数据，所以组件要有自己存储数据的地方（data选项）。
+组件不能访问Vue实例的 data 数据，所以组件要有自己存储数据的地方（data 选项）。
 
 ==组件的data选项必须是一个函数，返回一个存放数据的对象==，因为：
 
-因为组件是可复用的。如果data写成对象形式，就使得所有组件实例共用了一份`data`，就会造成一个变了全都会变的结果。而data是一个函数的话，每复用一次组件，就会返回一份新的`data`，相当于给每个组件实例创建一个私有的数据空间，确保每个组件实例维护各自的数据，互不影响。
+因为组件是可复用的。如果 data 写成对象形式，就使得所有组件实例共用了一份 data，就会造成一个变了全都会变的结果。而 data 是一个函数的话，每复用一次组件，就会返回一份新的 data，相当于给每个组件实例创建一个私有的数据空间，确保每个组件实例维护各自的数据，互不影响。
 
 ```js
 let app = new Vue({
   components: {
-    'my-cpn': {					// 组件my-cpn
+    'my-cpn': {										// 组件 my-cpn
      template: '#mycpn',
-     	data() {				// data是一个函数
- 				return {
-    			name: 'black',
-    			age: 18,
- 				}
-			}
+     	data() { return {} }				// data 函数返回一个对象
     }
   }
 })
@@ -796,17 +828,21 @@ let app = new Vue({
 
 ### 组件通信
 
-因为子组件不能访问父组件或Vue实例的数据，所以组件之间必须要通信。
+因为子组件不能访问父组件或 Vue 实例的数据，所以组件之间必须要通信。
 
-==Vue实例和子组件的通信与父组件和子组件的通信是一样的==
+==Vue 实例和子组件的通信与父组件和子组件的通信是一样的。==
 
-#### 父子组件的通信
+#### 父子组件
 
-- **父组件通过props向子组件传递数据**。props只能由父组件修改，子组件使用其中的数据而不能修改
+- **父组件通过props向子组件传递数据**
+
+  props只能由父组件修改，子组件只能使用其中的数据。
+
+  对于一个数组或对象类型的 prop 来说，在子组件中改变将会影响到父组件的状态。
 
   ```html
   <div id="app">
-    <cpn :cmes="mes" />		<!-- 父组件把数据传给子组件 -->
+    <cpn :cmes="mes" />								 <!-- 父组件把数据传给子组件 -->
   </div>
   <template id="cpn">
   	<div>{{cmes}}</div>
@@ -834,11 +870,11 @@ let app = new Vue({
   </script>
   ```
 
-- **子组件通过自定义事件向父组件传递数据**。==自定义事件没有事件对象event，默认接收$emit的参数==
+- **子组件通过自定义事件向父组件传递数据**。==自定义事件没有事件对象event，默认接收 $emit 的参数==
 
   ```html
   <div id="app">
-    <cpn @myevent="cpnClick" />	<!-- 自定义myEvent事件 -->
+    <cpn @myevent="cpnClick" />				 <!-- 自定义 myEvent 事件 -->
   </div>
   <template id="cpn">
   	<div>
@@ -855,17 +891,15 @@ let app = new Vue({
       },
       methods: {
         btnClick() {
-          this.$emit('myevent', this.mes)	//触发自定义事件myEvent，并把参数mes传过去
+          this.$emit('myevent', this.mes)	// 触发自定义事件 myEvent，并把参数 mes 传过去
         }
       }
     }
     const app = new Vue({
       el: '#app',
-      components: {
-        cpn
-      },
+      components: { cpn },
       methods: {
-        cpnClick(mes) {}		// 子组件触发事件的处理函数
+        cpnClick(mes) {}									// 子组件触发事件的处理函数
       }
     })
   </script>
@@ -875,29 +909,27 @@ let app = new Vue({
 
 
 
-#### 非父子组件通信
+#### 非父子组件
 
-涉及到非父子组件的通信，可以使用事件总线bus，也可以使用vuex。
-
-属性$bus默认是不存在的，需要手动创建
+涉及到非父子组件的通信，可以使用事件总线 bus，也可以使用 vuex
 
 ```js
-Vue.prototype.$bus = new Vue();		// 向Vue注入总线属性$bus，$bus也是一个Vue实例
-this.$bus.$emit('myEvent');				// this是组件，触发该实例上的事件
-this.$bus.$on('myEvent', () => {})// 监听该实例上的自定义事件
+Vue.prototype.$bus = new Vue();					// 向Vue注入总线属性，$bus是Vue实例(为了用on、emit)
+this.$bus.$on('myEvent', () => {})			// this 是组件，监听该实例上的自定义事件
+this.$bus.$emit('myEvent');							// 触发该实例上的事件
 ```
 
 ---
 
 
 
-### 组件访问方式
+### 组件访问
 
 - **父组件访问子组件**
 
-  - 实例属性$children：是一个数组，存放子组件实例（标签）
+  - 实例属性 $children：是一个数组，存放子组件实例（标签）
 
-  - 实例属性$refs：是一个对象，存放定义了ref属性的子组件实例（标签）
+  - 实例属性 $refs：是一个对象，存放定义了 ref 属性的子组件或标签，默认是空对象
 
     ```html
     <div id="app">
@@ -916,45 +948,40 @@ this.$bus.$on('myEvent', () => {})// 监听该实例上的自定义事件
         },
         methods: {
           btnClick() {
-            console.log(this.$refs)	// {son: Vuecomponent}，refs存放有ref属性的子组件
+            console.log(this.$refs)	// refs 对象存放有 cpn 组件
           }
         }
       })
     </script>
     ```
 
-- 子组件访问父组件
+- **子组件访问父组件**
   
-- $parent，是父组件对象或Vue实例，不常用
-  
-- 访问根组件
-  
-  - $root，是Vue实例，不常用
+  - $parent，是父组件对象或 Vue 实例，不常用
+    
+  - $root，是 Vue 实例，不常用
 
-注意：
+**注意：**
 
-- 组件继承自Vue，所以组件都可以使用Vue实例的属性和方法（原型链）
-- html标签和组件一样，也有ref属性。所有标签都有load事件，offset等属性
+- 组件继承自 Vue，所以组件都可以使用 Vue 实例的属性和方法（原型链）
+- html 标签和组件一样，也有 ref 属性。所有标签都有 load 事件，offset 等属性
 
 ---
 
 
 
-### slot插槽
+### slot 插槽
 
 #### 介绍
 
-slot是Vue的内置组件，作用是==替换指定的任意内容。而且无论有没有替换，编译后自身是不存在的==
+slot 是 Vue 的内置组件，作用是==替换指定的任意内容。而且无论有没有替换，编译后自身是不存在的==
 
 ```html
-<!-- 之前使用组件，里面都是没有内容的或内容是无效的 -->
+<!-- 之前，使用组件时，里面都是没有内容的或内容是无效的 -->
 <cpn>这里的内容是无效的</cpn>
 
-<!-- 现在，组件模板内放置的slot标签用于接受上面的无效内容 -->
+<!-- 现在，组件模板内放置的 slot 标签用于接受上面的无效内容 -->
 <slot></slot>
-
-<!--  -->
-<!--  -->
 ```
 
 ---
@@ -963,39 +990,13 @@ slot是Vue的内置组件，作用是==替换指定的任意内容。而且无�
 
 #### 插槽默认值
 
-slot标签内可以设置默认内容，如果使用组件时不提供插槽内容，就会显示插槽的默认内容
+slot 标签内可以设置默认内容，如果使用组件时不提供插槽内容，就会显示插槽的默认内容
 
 ```html
-<slot>我是默认内容</slot>
+<slot>默认内容</slot>
 
-<!-- 不提供插槽内容 -->
-<cpn></cpn>		<!-- 我是默认内容 -->
-
-<!-- 提供插槽内容 -->
-<cpn>我是提供内容</cpn>		<!-- 我是提供内容 -->
-```
-
----
-
-
-
-#### 具名插槽
-
- `<slot>`元素有一个属性：`name`。用来定义具名插槽。
-
- 不带 `name` 的`<slot>`，默认名字“default”，名字可以重复。
-
-```html
-<template v-slot:header>			<!-- v-slot指令只能在template标签上使用 -->
-  <h1>Here might be a page title</h1>
-</template>
-<p>another</p>							  <!-- 也可以使用v-slot:default -->
-
-<!-- 组件模板的插槽 -->
-<div>
-  <slot name="header"></slot>	<!-- 名字为header的插槽 -->
-  <slot></slot>								<!-- 默认插槽，名字是default -->
-</div>
+<cpn></cpn>								<!-- 不提供插槽内容 -->
+<cpn>提供内容</cpn>				 <!-- 提供插槽内容 -->
 ```
 
 ---
@@ -1008,7 +1009,7 @@ slot标签内可以设置默认内容，如果使用组件时不提供插槽内�
 
 ```html
 <div id="app">
-  <cpn v-show="isTrue">i am {{name}}</cpn>	<!-- 变量isTrue、name的作用域都是父组件 -->
+  <cpn v-show="isTrue">i am {{name}}</cpn>		<!-- 变量isTrue、name的作用域都是父组件 -->
 </div>
 <!-- 编译后，父组件里没有<cpn>标签，有的只是子组件内的标签，<cpn>的属性过渡到子组件的最外层div标签 -->
 ```
@@ -1017,23 +1018,46 @@ slot标签内可以设置默认内容，如果使用组件时不提供插槽内�
 
 
 
-#### 作用域插槽
+#### 具名插槽
 
-有时候，希望使用插槽的默认值，但是默认值的展示结构不符合要求，也就是说，只要插槽中的数据，不要插槽中数据的默认展示。这时可以使用作用域插槽。
+ `<slot>`元素有一个属性：`name`，用来定义具名插槽。
 
-绑定在slot标签的属性被称为插槽属性（slot prop），属性名自定义，可定义多个插槽属性，所有的插槽属性都会存放在v-slot指定的对象内，父组件通过v-slot指令可以使用插槽属性。
-
-作用域插槽的使用：通过v-slot找到指定的具名插槽，指定对象会收集该具名插槽的所有插槽属性
+ 不带 `name` 的`<slot>`，默认名字是“default”，名字可以重复。
 
 ```html
-<template v-slot:a="propName">					<!-- 将包含所有插槽属性的对象命名为propName -->
+<!-- 组件模板的插槽 -->
+<div>
+  <div><slot name="header"></slot></div>		 <!-- 名字为 header 的插槽 -->
+  </div><slot></slot></div>									 <!-- 默认插槽，名字是 default -->
+</div>
+
+<template v-slot:header>
+  <h1>Here might be a page title</h1>
+</template>
+<p>another</p>														   <!-- 也可以使用v-slot:default -->
+```
+
+---
+
+
+
+#### 作用域插槽
+
+有时候，希望使用插槽的默认值，但是默认值的展示结构不符合要求，也就是说，只要插槽中的数据，不要插槽中数据的默认展示，这时可以使用作用域插槽。
+
+绑定在 slot 标签的属性被称为插槽属性（slot prop），属性名自定义，可定义多个插槽属性，所有的插槽属性都会存放在 v-slot 指定的对象内，父组件通过 v-slot 指令可以使用插槽属性。
+
+作用域插槽的使用：通过v-slot找到指定的具名插槽，指定对象会收集该具名插槽的所有插槽属性。
+
+```html
+<template v-slot:a="propName">					<!-- 将包含所有插槽属性的对象命名为 propName -->
   {{ propName.dataNmae }}								<!-- propName.dataNmae 等于 data -->
   {{father = propName.dataNmae}}				<!-- 还可以将子组件数据这样传给父组件 -->
 </template>
 
 <!-- 组件模板的插槽 -->
-<slot name:"a" v-bind:dataNmae="data">	<!--dataName是插槽属性，指向子组件数据data-->
-  子组件data的默认展示											<!-- 只要数据，不要展示 -->
+<slot name:"a" :dataNmae="data">				<!--dataName 是插槽属性，指向子组件数据 data-->
+  子组件 data 的默认展示									 <!-- 只要数据，不要默认展示 -->
 </slot>
 ```
 
@@ -1043,32 +1067,30 @@ slot标签内可以设置默认内容，如果使用组件时不提供插槽内�
 
 #### 总结
 
-**插槽有两类：**
+- **插槽分类：**
+  - 具名插槽（有 name 属性）
+  - 作用域插槽（除了有name属性，还有插槽属性）
 
-- 具名插槽。slot标签有name属性
-- 作用域插槽。slot标签除了有name属性，还有插槽属性（绑定自定义属性）
+- **插槽使用方式：**
+  - 使用提供的插槽内容
 
-**插槽有三种使用方式：**
+    ```html
+    <cpn>提供内容</cpn>
+    ```
 
-- 使用提供的插槽内容
+  - 使用插槽的默认内容
 
-  ```html
-  <cpn>提供内容</cpn>
-  ```
+    ```html
+    <slot>默认内容</slot>
+    ```
 
-- 使用插槽的默认内容
+  - 两者结合，使用提供的插槽展示结构、默认的插槽内容数据
 
-  ```html
-  <slot>默认内容</slot>
-  ```
-
-- 两者结合，使用提供的插槽展示结构、默认的插槽内容数据
-
-  ```html
-  <cpn v-slot:slotName="propName">{{propName.dataName}}</cpn>
-  -----------------------------------------------------------
-  <slot name="slotName" :dataName="data">data的默认展示</slot>
-  ```
+    ```html
+    <slot name="slotName" :dataName="data">data的默认展示</slot>
+    
+    <cpn v-slot:slotName="{dataName}">{{dataName}}</cpn>
+    ```
 
 ---
 
@@ -1076,9 +1098,9 @@ slot标签内可以设置默认内容，如果使用组件时不提供插槽内�
 
 ## 模块化开发
 
-### js模块化规范
+### js 模块化规范
 
-- **CommonJS规范（同步加载）**
+- **CommonJS 规范（同步加载）**
 
   ```js
   // 常用于服务器端（Node）
@@ -1090,17 +1112,16 @@ slot标签内可以设置默认内容，如果使用组件时不提供插槽内�
   let {demo, text} = require('文件名')	// 导入
   ```
 
-- **ES6的Module**
+- **ES6 的 Module**
 
   ```js
-  export = {										// 导出
-    demo: 1,
-  }
+  let demo = 1;
+  export {demo}												// 导出，要放在{}中，而且不能在这里定义
   export default function() {}
-  import {demo } from '文件名'		// 导入
-  <script src="js文件" type="module"></script>	// HTML文件导入js模块格式
+  import {demo} from '文件名'					// 导入
+  <script src="js文件" type="module"></script>	/// HTML文件导入js模块格式
   ```
-
+  
 - **CMD（异步加载）**
 - **AMD（异步加载）**
 
@@ -1108,48 +1129,44 @@ slot标签内可以设置默认内容，如果使用组件时不提供插槽内�
 
 
 
-### 打包工具Webpack
+### Webpack
 
-#### 概述
+==webpack 是 JS 应用程序的静态模块化打包工具。==
 
-==webpack是 JavaScript 应用程序的静态模块化打包工具。==
+**模块化：**浏览器只支持 ES6 模块化规范。利用 Webpack，可以使用任何一种模块化规范，Webpack 会将其转				为浏览器支持的格式。
 
-**模块化：**浏览器只支持ES6模块化规范。利用Webpack，可以使用任何一种前端模块化规范，Webpack会将其转				为浏览器支持的格式。
+**打包：**将各种资源模块合成一个或多个包。包括压缩图片、scss 转 css、ES6 转 ES5、TS 转 JS 等。
 
-**打包：**将各种资源模块合成一个或多个包。包括压缩图片、scss转css、ES6转ES5、TypeScript转JavaScript等。
-
-Webpack要做的事情：分析项目结构，递归地构建一个依赖关系图，里面包含应用程序需要的每个模块，然后将这些模块打包成一个或多个包。
-
-==Webpack主要是模块化，文件压缩、预处理都是附带功能。==
+==Webpack 主要是模块化，==文件压缩、预处理都是附带功能。
 
 ---
 
 **安装**
 
-Webpack是基于Node环境运行的，所以要先安装Node.js。
+Webpack 是基于 Node 环境运行的，所以要先安装 Node。
 
-全局安装Webpack（vue-cli2依赖3.6.0版本）
-
-```shell
-npm install webpack@3.6.0 -g		// -g表示全局安装
-```
-
-局部安装Webpack
+全局安装 Webpack（vue-cli2 依赖 3.6.0 版本）
 
 ```shell
-npm install webpack@3.6.0 --save-dev	// 开发依赖，打包后不再需要
+npm install webpack@3.6.0 -g
 ```
 
-==在终端界面使用webpack命令都是指向全局webpack==
+局部安装 Webpack
+
+```shell
+npm install webpack@3.6.0 --save-dev			# 开发依赖，打包后不再需要
+```
+
+==在终端界面使用 webpack 命令都是指向全局 webpack==
 
 ---
 
 **使用**
 
-在终端下，进入项目文件夹
+在终端下，进入项目目录
 
 ```shell
->webpack ./src/main.js ./dist/bundle.js		// 全局webpack将main.js打包bundle.js
+webpack ./src/main.js ./dist/bundle.js		# 将 main.js 及其依赖打包 bundle.js
 ```
 
 ---
@@ -1158,42 +1175,62 @@ npm install webpack@3.6.0 --save-dev	// 开发依赖，打包后不再需要
 
 #### 工作方式
 
-通过给定的主文件（main.js），Webpack将从这个文件开始找到项目的所有依赖文件，使用各种loader处理它们，最后打包为一个浏览器可识别的JavaScript文件（bundle.js），HTML文件引入的就是bundle.js。
-
-把webpack想像成一个工厂，各种loader就是一个个负责不同工作的工人，有的会处理 svg，有的会压缩 css 或者图片，有的会处理 less，有的会将 es6 转换为 es5。完成自己工作后，把自己处理的结果交给下一个工人，直到最后由webpack将他们的劳动成果生成 dist 目录下的文件
+通过给定的主文件（main.js），Webpack 将从这个文件中根据模块化引入来确定所有依赖，使用各种 loader 处理它们，打包为一个浏览器识别的 JavaScript 文件（bundle.js），而且支持使用多种模块化规范。最后 HTML 文件只要引入 bundle 文件就行了。
 
 ---
 
 
 
-#### webpack.config.js
+#### 配置文件
 
-使用webpack时，要在项目下创建配置文件webpack.config.js。在终端运行webpack命令，webpack会在项目下查找配置文件并执行。
+使用 webpack 时，要在项目下创建配置文件 webpack.config.js。在终端运行 webpack 命令，会在项目下查找和执行配置文件。
 
 ```js
-const path = require('path')	// path包是node的内置模块，所以要先初始化npm init
+const path = require('path')							// webpack 基于 Node 运行，可以使用其模块
 module.exports = {
-  entry: './src/main.js',			// 设置入口文件，webpack会根据入口文件查找所有依赖
-  output: {										// 设置输出
-    path: path.resolve(__dirname, dist),	// path是绝对路径，指向项目下的dist文件夹
-    filename: bundle.js				// 设置输出的文件名
+
+}
+```
+
+设置好配置文件后，使用命令
+
+```shell
+webpack
+```
+
+---
+
+**webpack.config.js 常用参数**
+
+```js
+const path = require('path')
+module.exports = {
+  entry: './src/main.js',									// 入口文件，webpack 会根据入口文件查找所有依赖
+  output: {
+    path: path.resolve(__dirname, 'dist'),// 打包目录的绝对路径
+    filename: 'bundle.js'									// 打包文件
+  }
+	module: {																// 配置loader
+    rules: [
+  	// 打包指定类型文件
+      {...},
+    // 打包其他文件
+      {...}
+    ]
+  },
+  plugins: {},														// 配置插件
+  resolve: {
+    extensions														// 省略扩展名
+    alias																	// 别名
   }
 }
 ```
 
-设置好配置文件后，终端直接输入webpack就可以打包
-
-```shell
->webpack
-```
-
 ---
 
+**npm 配置文件 package.json**
 
-
-#### package.json
-
-在npm的配置文件package.json设置script，这样在终端可以通过执行npm命令来指向webpack命令
+在 package.json 设置脚本命令 scripts，这样在终端可通过 npm 命令来指向 webpack 命令
 
 ```js
 {
@@ -1201,20 +1238,15 @@ module.exports = {
   "script": {
     "build": "webpack"
   }
-  "devDependencies": {}	// 开发依赖，局部安装webpack使用的是开发依赖
-  "dependencies": {}		// 运行依赖
+  "devDependencies": {}			// 开发依赖
+  "dependencies": {}				// 生产依赖
 }
 ```
 
-```js
---save			// 运行依赖
---save-dev	// 开发依赖
-```
-
-这样在终端就可以运行
+终端运行
 
 ```shell
-npm run build		// 使用的是本地webpack
+npm run build								# 使用本地 webpack 打包
 ```
 
 ---
@@ -1223,9 +1255,9 @@ npm run build		// 使用的是本地webpack
 
 #### loader
 
-webpack本身只识别js文件。loader让webpack能够去处理那些非js文件。loader将所有类型的文件转换为webpack能够处理的模块，再利用webpack对它们进行打包。
+webpack 本身只识别 js 文件。loader 让 webpac k能够去处理那些非 js 文件。loader 将其他类型的文件转换为webpack 能够处理的模块，再利用 webpack 对它们进行打包。
 
-下载的各种loader都在node_modules文件夹，就像node的第三方模块。
+下载的各种 loader 都在 node_modules 文件夹，就像 node 的第三方模块。
 
 **使用：**
 
@@ -1287,9 +1319,9 @@ https://www.webpackjs.com/loaders/
 
 
 
-#### plugin插件
+#### plugin
 
-plugin让webpack增加更多的功能（webpack只有打包功能）。loader让webpack识别除js文件以外的其他文件（loader加载其他文件），webpack能识别加载后的文件。==loader是加载器，plugin是扩展器==
+loader 让 webpack 可以打包除 js 文件以外的其他文件，plugin 可以让 webpack 增加更多的功能。
 
 **使用：**
 
@@ -1368,14 +1400,12 @@ plugin让webpack增加更多的功能（webpack只有打包功能）。loader让
 
 
 
-#### webpack中使用Vue
-
-npm下载的vue模块会放在node_modules。
+#### webpack 中使用 Vue
 
 安装：
 
 ```js
-npm install vue --save		// 运行依赖
+npm install vue --save
 ```
 
 导入：
@@ -1388,11 +1418,13 @@ import Vue from 'vue'
 
 
 
-## vue-cli脚手架
+### vue-cli 脚手架
 
 #### 概述
 
-使用vue-cli可以快速的搭建Vue开发环境和webpack配置。脚手架相当于集成了webpack、各种loader、plugin。
+使用 vue-cli 可以快速的搭建 Vue 开发环境和 webpack 配置。
+
+脚手架相当于集成了 webpack、loader、plugin。
 
 ==vue-cli也是基于Node环境工作的==
 
@@ -1403,7 +1435,7 @@ npm install @vue/cli -g				// cli3
 npm install @vue/cli-init -g	// cli2
 ```
 
-**初始化：**
+**创建项目：**
 
 ```js
 vue create 项目名				// cli3，不能大写
@@ -1416,7 +1448,7 @@ vue init webpack 项目名	// cli2
 
 #### runtime-compiler、runtime-only
 
-vue有两个构建版本，runtime-compiler和runtime-only，两者的区别在main.js
+vue 有两个构建版本，runtime-compiler 和 runtime-only，两者的区别在main.js
 
 ```js
 // runtime-compiler
@@ -1433,42 +1465,42 @@ new Vue({
 })
 ```
 
-runtime-compiler是全功能的vue文件，可以编译template、render。构建过程：
+runtime-compiler 是全功能的 vue 文件，可以编译 template、render。构建过程：
 
 ```js
 template-->ast-->render-->vdom-->UI
 ```
 
-runtime-only只能编译render。构建过程：
+runtime-only 只能编译 render。构建过程：
 
 ```js
 render-->vdom-->UI
 ```
 
-render是渲染函数
+render 渲染函数
 
 ```js
-render(createElement) {  //h的参数可以是标签、组件（不用注册）
+render(createElement) {  							// h的参数可以是标签、组件（不用注册）
 return creatElement(‘div’ , {class: box} , [ ‘文本内容’, ... ])
 }
 常用render: h => h(组件对象)
 ```
 
-在将 .vue 文件编译成js的过程中，组件中的template会被vue-template-compiler编译为render函数，所以导入的组件是render函数的版本，已经没有template了。
+在将 .vue 文件编译成 js 的过程中，组件中的 template 会被 vue-template-compiler 编译为 render 函数，所以导入的组件是 render 函数的版本，已经没有 template了。
 
 **runtime-only优点：性能更高、代码量更少**
 
-总结：
+**总结：**
 
-- 如果使用的是runtime-only，就不能再使用template
+- 如果使用的是 runtime-only，就不能再使用 template
 
-- runtime-compiler允许使用template
+- runtime-compiler 允许使用 template
 
 ---
 
 
 
-#### alias别名
+#### alias 别名
 
 配置webpack.base,config.js（cli2）可以给文件夹起别名
 
@@ -1494,9 +1526,9 @@ import Home from 'components/Home'
 
 
 
-####  cli打包文件
+####  cli 打包文件
 
-在终端执行打包命令npm run build，cli项目下会生成dist目录，里面存放打包生成的
+在终端执行打包命令 `npm run build`，cli 项目下会生成 dist 目录，里面存放打包生成的
 
 - index.html
 - css
@@ -1508,7 +1540,7 @@ import Home from 'components/Home'
 
 
 
-#### cli2目录结构
+#### cli2 目录结构
 
 ![image-20200104105555170](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200104105555170.png)
 
@@ -1516,94 +1548,78 @@ import Home from 'components/Home'
 
 
 
-#### cli3目录结构
+#### cli3 目录结构
 
-- Vue CLI 3基于webpack 4的，Vue CLI基于webpack 3
+- Vue CLI 3基于webpack 4，Vue CLI2 基于webpack 3
 
-- CLI 3看不到配置目录build、config。但提供了可视化界面用于设置配置
+- CLI 3看不到配置目录build、config。但提供了可视化界面用于设置配置；也可以使用`vue.config.js`配置
 
   ```js
-  >vue ui		//启动配置的web页面
+  >vue ui											// 启动配置的web页面
   ```
 
-- CLI 3移除了static目录，增加了public目录，将index.html移到public目录下，该目录也是原封不动的打包到dist目录
+- CLI 3 移除了 static 目录，增加了 public 目录，将 index.html 移到 public 目录下，该目录也会原封不动的打包到dist目录，该目录下的文件需要使用绝对路径导入
+
+- src/assets 目录用于存放静态资源，所有资源会被当做依赖模块，使用相对路径导入
 
 ---
 
 
 
-## vue-router路由
+#### vue.config.js
 
-### 前端渲染、后端渲染
+vue.config.js 是一个可选的配置文件，如果项目根目录中存在这个文件，那么它会被 @vue/cli-service 自动加载。也可以使用 package.json 中的 vue 字段，但是需要严格遵照 JSON 的格式来写
 
-**后端渲染**
-
-以前Web是由HTML和CSS构建的静态页面，没有太多的交互性。每个用户行为要求服务器来创建和提供一个完整的页面。后端渲染HTML的情况下，浏览器接收到的页面是经过服务器渲染的呈现给用户的最终的HTML字符串。过程：
-
-- 浏览器发送URL请求
-- 后端使用模板引擎生成HTML；向数据库请求数据，并插入HTML中；将HTML响应给前端
-- 前端接收到HTML后，在浏览器中显示
-
-国企网站都是使用服务端渲染，就是点击一下，就会打开新页面，然后从后台请求新的页面数据。
-
-好处：前端耗时少（前端只负责展示HTML+CSS），有利于SEO，模板统一在后端。前端相对省事，不占用客户端			资源（不用解析模板）
-
-坏处：网络传输数据量大，占用部分服务器运算资源
-
-
-
-**前端渲染**
-
-前端渲染起源于JavaScript的兴起，ajax更是让前端渲染更加成熟，前端渲染实现了前后端分离，前端只专注于UI的开发，后端只专注于逻辑的开发，前后端交互只通过约定好的API来交互，后端提供json数据，前端利用预先写的html模板，循环读取JSON数据，拼接字符串，并插入页面。
-
-过程：
-
-- 浏览器向静态资源服务器发送URL请求
-- 静态资源服务器响应对应的HTML+CSS+JS（前端）
-- 浏览器接收到HTML+CSS+JS并解析，如果在执行js代码中遇到JAJAX请求就向服务器发送数据请求（后端）
-- 浏览器将数据插入HTML中，将渲染好的页面显示
-
-好处：网络传输数据量小。不占用服务端运算资源，模板在前端（可能是部分在前端）
-
-坏处：前端要渲染页面耗时较多，不利于SEO。占用客户端运算资源用于解析模板
-
-==爬虫可以爬取后端渲染的数据，但不能爬取前端渲染的数据==
+```js
+// vue.config.js
+module.exports = {
+  publicPath: '/my-app/'						// 部署 web 应用的 URL 访问地址(public目录)，默认'/'，
+  outputDir: 'dist',								// npm run build 生成的构建文件的输出目录
+ 	pages: {													// 构建一个多页面的应用
+  	index: {												// 页面入口名称
+      entry: 'src/index/main.js',	 	// 入口文件
+      template: 'public/index.html',// 模板文件
+      filename: 'index.html',      	// 在 dist/index.html 的输出
+      title: 'Index Page',				  // template 中的 title 标签要是 <title><%=																								 htmlWebpackPlugin.options.title %></title>	
+      chunks: ['chunk-vendors', 'chunk-common', 'index']
+    },
+	}
+  configureWebpack: {
+  	plugins: [
+      new MyAwesomeWebpackPlugin()
+    ]
+	}
+}
+```
 
 ---
 
 
 
-### 前端路由、后端路由
-
-**后端路由**
-
-通过用户请求的**url**导航到具体的**html**页面；每跳转到不同的**URL**，都是重新访问服务端，然后服务端返回页面，页面也可以是服务端获取数据，然后和模板组合，返回HTML（**后端渲染**），也可以是直接返回模板**HTML**，然后由前端js再去请求数据，使用前端模板和数据进行组合，生成想要的HTML（**前端渲染**）
-
-特点：浏览器会刷新页面，网速慢可能导致屏幕全白再有新内容。后端路由最大的问题就是**前后端不分离**。
-
-
+## vue-router 路由
 
 **前端路由**
 
 在单页面应用，大部分页面结构不变，只改变部分内容。由前端来根据不同的URL跳转到对应的内容（组件）
 
-模式：hash模式和history模式
+模式：hash 模式和 history 模式
 
-==特点：页面不刷新==
+前端路由核心是改变 URL，但是页面不进行整体的刷新
 
-两者对比：
+**与后端路由对比：**
 
 - 后端路由每次访问新页面都要向服务器发送请求，然后服务器再响应请求，这个过程会有延迟。前端路由访问新页面仅仅是变换了路径，没有网络延迟，用户体验好
 - 前端路由使用浏览器的前进，后退键的时候会重新发送请求，没有合理地利用缓存
-- vue-router是前端路由；koa-router是后端路由
+
+**vue-router是前端路由；koa-router是后端路由。**
 
 ---
 
 
 
-### 改变URL不刷新页面的方式
+### 改变 URL 不刷新页面
 
-- URL的hash，也就是锚点（#），本质是改变window.location.hash
+- URL 的 hash，也就是锚点（#），本质是改变 window.location.hash
 
   ```js
   >location.href
@@ -1613,7 +1629,7 @@ import Home from 'components/Home'
   <"http://192.168.1.101/example/#bar"
   ```
 
-- H5的history模式。URL指向栈中最新的地址
+- H5 的 history 模式。URL 指向栈中最新的地址
 
   ```js
   history.pushState()			// 入栈
@@ -1657,16 +1673,16 @@ import Home from 'components/Home'
 
 ### 概述
 
-单页面富应用SPA：Single Page Application，SPA是在前后端分离的基础上加了前端路由。
+单页面富应用 SPA：Single Page Application，SPA 是在前后端分离的基础上加了前端路由。
 
-vue-router是Vue.js集成的官方插件，用于构建SPA。
+vue-router 是 Vue.js 集成的官方插件，用于构建 SPA。
 
-vue-router基于路由和组件：
+vue-router 基于路由和组件：
 
 - 路由用于设定访问路径，将路径和组件形成一一映射的关系
 - ==路径的改变就是组件的切换，而且切换是创建和销毁组件==
 
-==vue-router是前端路由，改变URL不会刷新页面，只是不同组件的切换==
+==vue-router 是前端路由，改变 URL 不会刷新页面，只是不同组件的切换==
 
 **安装：**
 
@@ -1681,42 +1697,42 @@ npm install vue-router --save
 import VueRouter from 'vue-router'
 import Vue from 'vue'
 Vue.use(VueRouter)
-cosnt routes = []
+const routes = []
 const router = new VueRouter({
-  routes,						// 用于配置路由和组件的映射关系，是个数组，存放对象，每一个对象都是一个映射关系
-  mode: 'history',	// 修改模式，默认hash模式
-  linkActiveClass: 'active',	// 统一设置router-link标签生成的类名
+  routes,													// 用于配置路由和组件的映射关系，是个数组，存放映射关系
+  mode: 'history',								// 修改模式，默认 hash 模式
+  linkActiveClass: 'active',			// 统一设置 router-link 标签生成的类名
 })
 export default router
 ```
 
-在Vue实例中挂载
+在 Vue 实例中挂载
 
 ```js
-import router from './router'		// 默认找index.html
+import router from './router'			 // 默认找index.html
 new Vue({
-  router		// 挂载后，所有组件都能使用$router、$route
+  router													 // 挂载后，所有组件都能使用$router、$route
 })
 ```
 
-router实例的routes属性：用于配置映射关系，是一个存放路由的数组
+router 实例的 routes 属性：用于配置映射关系，是一个存放路由的数组
 
 ```js
 const Home = () => import('../components/Home')
 routes: [
   {
-    path: '/',				// 默认路由
-    redirect: '/home',// 当页面路径是'/'时，重定向到'/home'
+    path: '/',										// 默认路由
+    redirect: '/home',						// 当页面路径是'/'时，重定向到'/home'
   },
   {
-    path: '/home',		// 将'/home'映射Home的路由
+    path: '/home',								// 将'/home'映射Home的路由
     component: Home
   },
   ...
 ]
 ```
 
-通过组件router-link和router-view使用路由
+通过组件 router-link 和 router-view 使用路由
 
 ```vue
 // App.vue
@@ -1729,7 +1745,7 @@ routes: [
 
 
 
-### Router选项
+### VueRouter 选项
 
 ```js
 new VueRouter({
@@ -1769,8 +1785,8 @@ new VueRouter({
 #### mode
 
 - 类型：string
-- 默认值: `"hash" (浏览器环境) | "abstract" (Node.js 环境)`
-- 可选值: `"hash" | "history" | "abstract"`
+- 默认值: `hash (浏览器环境) | abstract (Node.js 环境)`
+- 可选值: `history | hash | abstract`
 
 ---
 
@@ -1789,9 +1805,9 @@ new VueRouter({
 ### 实例属性
 
 ```js
-app						// 配置了router的Vue根实例
-mode					// 路由使用的模式
-currentRoute	// 当前路由对应的路由信息对象
+app								// 配置了router的Vue根实例
+mode							// 路由使用的模式
+currentRoute			// 当前路由对应的路由信息对象
 ```
 
 ---
@@ -1803,12 +1819,12 @@ currentRoute	// 当前路由对应的路由信息对象
 ```js
 push(location)		// 用于导航到指定的URL，该方法会向 history 栈添加一个新的记录，所以可以前进、后退
 replace(location)	// 替换掉当前的 history 记录，不能前进、后退
-go(n)			// 在 history 记录中向前或后退n次
-back()		// 后退
-forward()	// 前进
+go(n)							// 在 history 记录中向前或后退n次
+back()						// 后退
+forward()					// 前进
 ```
 
-App.vue
+在组件中使用
 
 ```js
 this.$router.push('/home')
@@ -1823,30 +1839,29 @@ this.$router.go(3)
 
 ### 注入属性
 
-通过在 Vue 根实例挂载router实例，将会注入以下属性，所有子组件都能使用
+通过在 Vue 根实例挂载 router 实例，将会注入以下属性，所有子组件都能使用
 
 ```js
-this.$router		// 创建的router实例
-this.$route			// 当前激活的路由信息对象，是一个只读属性
+this.$router			// 创建的router实例
+this.$route				// 当前激活的路由信息对象，是一个只读属性
 ```
 
-$router方法
+$router 方法
 
 ```js
 $router.push
 $router.replace
 ```
 
-$route属性
+$route 属性
 
 ```js
-$route.path		// 获取路由的路径
-$route.params	// 动态路由参数的集合，一开始是空对象
-$route.query	// 获取router-link的to属性的查询参数，一开始是空对象
-$route.name		// 获取路由的名称
-$route.hash		// 获取路由的hash值（带#）
-$route.matched// 数组，包含当前路由的所有嵌套路径片段的路由记录
-// 导航守卫的参数to、from是路由对象
+$route.path				// 获取路由的路径
+$route.params			// 动态路由参数的集合，一开始是空对象
+$route.query			// 获取router-link的to属性的查询参数，一开始是空对象
+$route.name				// 获取路由的名称
+$route.hash				// 获取路由的hash值（带#）
+$route.matched		// 数组，包含当前路由的所有嵌套路径片段的路由记录
 ```
 
 ---
@@ -1855,46 +1870,40 @@ $route.matched// 数组，包含当前路由的所有嵌套路径片段的路由
 
 ### 内置组件
 
-安装vue-router时会注册两个全局组件：router-link和router-view
+安装 vue-router 时会注册两个全局组件：router-link 和 router-view
 
 #### router-link
 
-<router-link>组件用于在具有路由功能的应用中点击导航。 通过 to 属性指定目标路由，默认渲染成a标签，路由匹配成功会自动添加一个类名router-link-active。
+<router-link>组件用于在具有路由功能的应用中点击导航。 通过 to 属性指定目标路由，默认渲染成 a 标签，当 URL 以 to 属性值开头时，默认添加类 router-link-active（全包含匹配），可通过 exact 属性设置为精确匹配
 
 **属性：**
 
-- to：string || Object
+- to：跳转到目标路由对应的组件。点击后会把 `to` 的值传到 `router.push()`
 
-  - 跳转到目标路由对应的组件。点击后会把 `to` 的值传到 `router.push()`
+  ```html
+<--! 对象形式要使用v-bind绑定to，有path、name、query、params等属性-->
+  <router-link :to="{path: 'home'}"></router-link>
+  ```
+  
+- tag：指定`<router-link>`渲染成某种标签，默认`<a>`
 
-    ```html
-    <--! 对象形式要使用v-bind绑定to，有path、name、query、params等属性-->
-    <router-link :to="{path: 'home'}"></router-link>
-    ```
+  ```html
+<router-link to="/home" tag="li">首页</router-link>
+  ```
+  
+- replace：点击时调用`router.replace()` 而不是 `router.push()`，不会留下 history 记录，不能后退
 
-    
-
-- tag：string
-
-  - 指定<router-link>渲染成某种标签，默认<a>
-
-    ```html
-    <router-link to="/home" tag="li">首页</router-link>
-    ```
-
-- replace：boolean
-
-  - 点击时调用`router.replace()` 而不是 `router.push()`，不会留下 history 记录，不能后退
-
-    ```html
-    <router-link :to="{ path: '/home'}" replace>首页</router-link>
-    ```
-
-- active-class：当路由匹配成功，设置生成的类名
+  ```html
+<router-link :to="{ path: '/home'}" replace>首页</router-link>
+  ```
+  
+- active-class：当前 URL 以 to 属性值开头时，设置生成的类名，默认是 router-link-active
 
   ```html
   <router-link to="/home" active-class="active"></router-link>
   ```
+  
+- exact：开启`router-link`的精确匹配模式
 
 ---
 
@@ -1902,7 +1911,7 @@ $route.matched// 数组，包含当前路由的所有嵌套路径片段的路由
 
 #### router-view
 
-<router-view>组件是一个容器。会根据路径的改变，动态渲染匹配的组件
+<router-view>组件是一个容器，会根据路径的改变，动态渲染匹配的组件。
 
 ---
 
@@ -1912,12 +1921,12 @@ $route.matched// 数组，包含当前路由的所有嵌套路径片段的路由
 
 一般路由都是一个路径对应一个组件，但有时会有多个路径对应一个同一个组件。如果每一个路径都要配置一个路由，就显得繁琐，这时可以使用动态路由。
 
-动态路由：将不同页面路径path映射同一个组件，只需要配置一个路由。==动态路由是路由传递数据的一种方式。==
+动态路由：将不同页面路径 path 映射同一个组件，只需要配置一个路由。==动态路由是路由传递数据的一种方式。==
 
-例如对于User组件，不同ID导致页面路径path不同，但都是使用User组件来渲染，比如user/foo和user/bar可以映射到相同的路径user
+例如对于 User 组件，不同 ID 导致页面路径 path 不同，但都是使用 User 组件来渲染，比如 user/foo和user/bar可以映射到相同的路径 user
 
 ```js
-// 一般路由需要配置两个路由
+// 一般来说需要配置两个路由
 const routes = [
   {
     path: '/user/foo',
@@ -1962,7 +1971,7 @@ const routes = [
 
 ==以 / 开头的嵌套路径会被当作根路径，所以嵌套路由不能以 / 开头。==
 
-例如Home组件除了有自己的内容外，还可以拥有子组件HomeNews、HomeMessage
+例如 Home 组件除了有自己的内容外，还可以拥有子组件 HomeNews、HomeMessage
 
 ```js
 const routes = [
@@ -1991,7 +2000,7 @@ const routes = [
 
 ```vue
 // Home.vue
-<router-link to="/home/news"></router-link>		// 该组件的路径都是这么写
+<router-link to="/home/news"></router-link>
 <router-link to="/home/message"></router-link>
 <router-view></router-view>
 ```
@@ -2000,15 +2009,15 @@ const routes = [
 
 
 
-### 路由组件传参
+### 路由传参
 
 在不同路由组件之间跳转过程中可以传递参数，传递方法有两种：
 
 #### params
 
-动态路由可以让路由组件之间传递参数，通过this.$route.params.参数名来获取参数值。
+动态路由可以让路由组件之间传递参数，通过`this.$route.params.参数名`来获取参数值。
 
-例如App.vue向User.vue传递参数
+例如 App.vue 向 User.vue 传递参数
 
 ```js
 // router/index.js
@@ -2020,16 +2029,16 @@ const routes = [
 ```
 
 ```vue
-// App.vue
+<!-- App.vue -->
 <router-link to="/user/black"></router-link>
-// 等同于
+<!-- 等同于 -->
 <button @click="$router.push('/user/black')"></button>
 
 <router-view></router-view>
 ```
 
 ```vue
-// User.vue
+<!-- User.vue -->
 <p>{{$route.params.name}}</p>
 ```
 
@@ -2039,21 +2048,21 @@ const routes = [
 
 #### query
 
-<router-link>标签的to属性使用对象形式（v-bind绑定），有个query属性，是一个存放参数的对象。
+<router-link>标签的 to 属性使用对象形式（v-bind绑定），其中有个 query 属性，是一个存放数据的对象。
 
-例如App.vue向Profile.vue传递参数
+例如 App.vue 向 Profile.vue 传递参数
 
 ```vue
-// App.vue,跳转到组件Profile时，把query也传递过去
+<!-- App.vue，跳转到组件 Profile 时，把 query 也传递过去 -->
 <router-link :to="{path: '/prodile', query: {name: 'aa', age: 18}}"></router-link>
-//等同于
+<!-- 等同于 -->
 <button @click="$router.push({path: '/profile', query: {name: 'aa', age: 18}})"></button>
 
 <router-view></router-view>
 ```
 
 ```vue
-// Profile.vue
+<!-- Profile.vue -->
 <p>{{$route.query.name}}</p>
 ```
 
@@ -2071,23 +2080,22 @@ const routes = [
 完整的导航过程：
 
 - 触发导航
-- 调用全局守卫beforeEach
-- 调用路由守卫beforeEnter
-- 调用全局守卫afterEach
+- 调用全局守卫 beforeEach
+- 调用路由守卫 beforeEnter
+- 调用全局守卫 afterEach
 
 #### 全局守卫
 
 全局守卫由路由实例调用创建。有三种：
 
-- beforeEach：导航之前执行，必须调用next()才能完成导航
+- beforeEach：导航之前执行，必须调用 next() 才能完成导航
 
 - beforeResolve：
 
 - afterEach：导航之后执行，没有next方法
 
   ```js
-  // router/index.js
-  const router = new VueRouter({...})
+  const router = new VueRouter({...})						//给 router 实例设置
   router.beforeEach((to, from, next) => {
     ...
     next();
@@ -2165,39 +2173,38 @@ const routes = [
 
 ### 路由懒加载
 
-当打包应用时，js文件可能很大，这就会影响页面加载。可以把不同路由对应的组件各自打包成js文件，当路由被访问时才加载对应组件
+当打包应用时，js 文件可能很大，这就会影响页面加载。可以把不同路由对应的组件各自打包成 js 文件，当路由被访问时才加载对应组件
 
 ```js
-const Home = () => import('../components/Home')	//一个组件对应一个打包js文件
+const Home = () => import('../components/Home')			//一个组件对应一个打包后的 js 文件
 ```
 
 ---
 
 
 
-### keep-alive结合router-view
+### keep-alive/router-view
 
-keep-alive是Vue的内置组件，可以使被包含的组件保留状态，不会被重新渲染。
+keep-alive 是 Vue 的内置组件，可以使被包含的组件保留状态，不会被重新渲染。
 
-router-view是安装插件vue-router时内置的组件，所有路径匹配到的视图组件都会被缓存，而不是被销毁
+router-view 是安装插件 vue-router 时内置的组件，用于渲染匹配路由时指定的组件。
+
+**如果 router-view 在 keep-alive 里面，那么所有路径匹配到的视图组件都会被缓存，而不是被销毁。**
 
 ```vue
-// Home.vue
+<!-- Home.vue -->
 <router-link to="/home/news"></router-link>
 <router-link to="/home/message"></router-link>
 <keep-alive exclude="User,Profile">
 	<router-view></router-view>
 </keep-alive>
-
-activated() {}		// Home处于激活状态时调用
-deactivated() {}	// Home处于不激活状态时调用
 ```
 
 ---
 
 
 
-## vuex状态管理
+## vuex 状态管理
 
 ### 概述
 
@@ -2531,92 +2538,87 @@ devtools是Vue官方开发的一个浏览器插件，用于捕捉mutation操作s
     ├── actions.js        # action
     ├── mutations.js      # mutation
     └── modules
-        ├── cart.js       # 购物车模块
+        └── cart.js       # 购物车模块
 ```
 
 ---
 
 
 
-## axios网络请求
+## axios 网络请求
 
 ### 概述
 
-网络请求方式：
+**网络请求方式：**
 
-- 原生Ajax（基于XMLHttpRequest(xhr)）
-
+- 原生 Ajax（基于 XMLHttpRequest）
 - jQuery-Ajax
-
 - vue-resource（废弃）
-
 - fetch
-
 - axios
 
-  **特点：**
+**axios特点：**
 
-  - 在浏览器中发送XMLHttpRequests
-  - 在node.js中发送http请求
-  - 支持Promise API
-  - 拦截请求和响应
-  - 转换请求数据和响应数据
-  - 自动转换JSON数据
-  - 客户端支持防御XSRF
-  - 等等
+- 在浏览器中发送 XMLHttpRequests
+- 在 node.js 中发送 http 请求
+- 支持 Promise API
+- 拦截请求和响应
+- 转换请求数据和响应数据
+- 自动转换 JSON 数据
+- 客户端支持防御XSRF
 
-  **安装：**
+**安装：**
 
-  ```js
-  npm install axios --save
-  ```
+```js
+npm install axios --save
+```
 
-  **使用：**
+**使用：**
 
-  ```js
-  import axios from 'axios'		//导入axios全局实例
-  axios({
-    url: '',
-    method: 'get',params: {},
-    
-  }).then(res => {})
+```js
+import axios from 'axios'		//导入axios全局实例
+axios({
+  url: '',
+  method: 'get',params: {},
   
-  axios.get(url[, config])
-  axios.post(url[, data, config])
-  axios.all([axios(...), axios(...)]).then(axios.spread((res1, res2) => {}))//并发请求
-  
-  axios.default.baseURL = 'http://123.207.23.23:8000'		// 全局配置
-  ```
+}).then(res => {})
 
-  通常不使用导入的axios实例，而是创建自己的axios实例
+axios.get(url[, config])
+axios.post(url[, data, config])
+axios.all([axios(...), axios(...)]).then(axios.spread((res1, res2) => {}))//并发请求
 
-  ```js
-  const instance = axios.create({		// 创建
-    baseURL: 'http://123.207.23.23:8000',
-    timeout: 100
-  })
-  
-  instance({		// 使用
-    url: '/home/data'
-  })
-  
-  // 拦截器
-  instance.interceptors.request.use(config => {		// 请求拦截
-    console.log('请求成功的拦截');
-    return config;
-  }, err => {
-    console.log('请求失败的拦截');
-    return err;
-  })
-  
-  instance.interceptors.response.use(response => {
-    console.log('响应成功的拦截');
-    return response.data;
-  }, err => {
-    console.log('响应失败的拦截');
-    return err;
-  })
-  ```
+axios.default.baseURL = 'http://123.207.23.23:8000'		// 全局配置
+```
+
+通常不使用导入的axios实例，而是创建自己的axios实例
+
+```js
+const instance = axios.create({		// 创建
+  baseURL: 'http://123.207.23.23:8000',
+  timeout: 100
+})
+
+instance({		// 使用
+  url: '/home/data'
+})
+
+// 拦截器
+instance.interceptors.request.use(config => {		// 请求拦截
+  console.log('请求成功的拦截');
+  return config;
+}, err => {
+  console.log('请求失败的拦截');
+  return err;
+})
+
+instance.interceptors.response.use(response => {
+  console.log('响应成功的拦截');
+  return response.data;
+}, err => {
+  console.log('响应失败的拦截');
+  return err;
+})
+```
 
 ---
 
@@ -2624,7 +2626,7 @@ devtools是Vue官方开发的一个浏览器插件，用于捕捉mutation操作s
 
 ### axios目录结构
 
-```js
+```shell
 ├── main.js
 ├── api
 │   └── ... 	# 抽取出API请求
@@ -2643,34 +2645,26 @@ export function request(config) {
 ...
 ```
 
-
-
----
-
-
-
-### 跨域
-
-浏览器的同源策略
-
-
-
 ---
 
 
 
 ## 项目开发
 
-- cli3创建项目
+- cli3 创建项目
 
   ```shell
-  >vue create 项目名称
+  vue create 项目名称
   ```
 
-- GitHub托管
+- GitHub 托管
 
   ```shell
-  
+  git init
+  git add .
+  git commit -m '提交描述'
+  git remote add origin 仓库地址
+  git push -u origin master
   ```
 
 - 项目结构
@@ -2698,24 +2692,23 @@ export function request(config) {
   └── main.js
   ```
 
-- css文件引入
+- css 文件引入
 
   ```js
-  /* 在css目录引入normalize.css和base.css
-     normalize.css：用于规范化HTML元素在不同浏览器的样式
-     base.css：用于定义css变量、原子类、重置默认样式、基础样式
+  App.vue 引入 base.css；base.css 引入 normalize.css
+  /* normalize：用于规范化 HTML 元素在不同浏览器的样式
+     base：用于定义 css 变量、原子类、重置默认样式、基础样式
   */
-  App.vue引入base.css；base.css引入normalize.css
   ```
-
+  
 - 配置路径别名
 
   ```js
-  // vue.config.js
+  // 创建 vue.config.js
   module.exports = {
     configureWebpack: {
-      resolve: {	// cli3默认配置好省略文件扩展名
-        alias: {	// 默认@是src；img标签要加上~
+      resolve: {												// cli3 默认配置好省略文件扩展名
+        alias: {												// 默认 @ 是 src；img 标签要加上 ~
           'assets': '@/assets',
           'common': '@/common',
           'components': '@/compponents',
@@ -2725,27 +2718,30 @@ export function request(config) {
       }
     }
   }
-  // 在项目下创建.editorconfig文件，用于规范代码风格
   ```
+
+- 创建 .editorconfig 文件，用于规范代码风格
 
 - 修改图标
 
   ```js
-  项目>public>index.html>link标签：修改href属性
+  public -> index.html -> link(href="imageURL")
   ```
 
-- 方法
+- 注意事项
 
-  - 在created钩子函数中写网络请求
-  - 在mounted中操作DOM元素和属性
+  - 在 created 钩子函数中写网络请求
+  - 在 mounted 中操作 DOM 元素和属性
   - 当使用对象时，先判断对象是否存在，再判断属性是否存在。。。最后再使用
-  - 
+  - 使用 vue-cli 启动项目时(npm run serve)，请求地址是以 localhost:8080 来请求接口数据的，但是localhost 是无法设置 cookie 的
 
 ---
 
 
 
-## Vue生命周期
+## 其他
+
+### Vue生命周期
 
 ![image-20191219173010960](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20191219173010960.png)
 
@@ -2753,9 +2749,9 @@ export function request(config) {
 
 
 
-## 组件通信
+### 组件通信
 
-组件通信有六种方式。
+组件通信有六种方式：
 
 - 父子通信
   - 父传子：props属性、`$children`、`$refs`
@@ -2775,11 +2771,7 @@ export function request(config) {
 
 
 
-## 响应式原理
-
-
-
-
+### 响应式原理
 
 - 在Vue实例初始化过程中，data属性中的数据会被添加到响应式系统中，响应式系统会监听这些数据的变化。当数据发生变化时，响应式系统会通知界面中所有用到该数据的地方，让数据发生刷新。
 
@@ -2799,9 +2791,7 @@ export function request(config) {
 
 
 
-## 其他
-
-### 导入CSS文件
+### 导入 CSS
 
 ```js
 @import '文件路径'
@@ -2811,7 +2801,7 @@ export function request(config) {
 
 
 
-### 防抖debounce
+### 防抖 debounce
 
 触发事件等待指定时间内只执行一次函数
 
@@ -2840,7 +2830,7 @@ this.debounce(this.$refs.scroll.refresh, 1000)		// 使用
 
 
 
-### 节流throttle
+### 节流 throttle
 
 触发事件后在指定时间内只执行一次函数
 

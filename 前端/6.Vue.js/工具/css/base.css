@@ -1,0 +1,255 @@
+@import "./normalize.css";
+
+/*!
+ * @名称：base.css
+ * @功能：1、重设浏览器默认样式
+ *       2、设置通用原子类
+ */
+/* 防止用户自定义背景颜色对网页的影响，添加让用户可以自定义字体 */
+html {
+  background: #fff;
+  color: #000;
+}
+
+body {
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  user-select: none;
+  /* 禁止用户鼠标在页面上选中文字/图片等 */
+  -webkit-tap-highlight-color: transparent;
+  /* webkit是苹果浏览器引擎，tap点击，highlight背景高亮，color颜色，颜色用数值调节 */
+  /* background: var(--color-background); */
+}
+
+/* 内外边距 */
+html,
+body,
+ul,
+li,
+ol,
+dl,
+dd,
+dt,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+form,
+fieldset,
+legend,
+img {
+  margin: 0;
+  padding: 0;
+}
+
+/*去掉input等聚焦时的蓝色边框*/
+fieldset,
+img,
+input,
+button {
+  border: none;
+  padding: 0;
+  margin: 0;
+  outline-style: none;
+}
+
+s,
+i,
+em {
+  font-style: normal;
+  text-decoration: none;
+}
+
+/* 要注意表单元素并不继承父级 font 的问题 */
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  *font-size: 100%
+}
+
+/* 防止拖动 */
+textarea {
+  resize: none;
+}
+
+select,
+input {
+  vertical-align: middle;
+}
+
+img {
+  /* 去掉图片低测默认的3像素空白缝隙，或者用display：block也可以 */
+  border: 0;
+  vertical-align: middle;
+}
+
+/* 去掉 table cell 的边距并让其边重合 */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* ie bug：th 不继承 text-align */
+th {
+  text-align: inherit;
+}
+
+/* 去除默认边框 */
+fieldset,
+img {
+  border: none;
+}
+
+/* ie6 7 8(q) bug 显示为行内表现 */
+iframe {
+  display: block;
+}
+
+/* 去掉 firefox 下此元素的边框 */
+abbr,
+acronym {
+  border: none;
+  font-variant: normal;
+}
+
+/* 一致的 del 样式 */
+del {
+  text-decoration: line-through;
+}
+
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+th,
+var {
+  font-style: normal;
+  font-weight: normal;
+}
+
+/* 去掉列表前的标识，li 会继承 */
+ol,
+ul {
+  list-style: none;
+}
+
+/* 对齐是排版最重要的因素，别让什么都居中 */
+caption,
+th {
+  text-align: left;
+}
+
+/* 来自yahoo，让标题都自定义，适应多个系统应用 */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+  font-weight: normal;
+}
+
+legend {
+  color: #000
+}
+
+q::before,
+q::after {
+  content: '';
+}
+
+/* 统一上标和下标 */
+sup {
+  vertical-align: text-top
+}
+
+sub {
+  vertical-align: text-bottom
+}
+
+/* 默认不显示下划线 */
+ins,
+a {
+  text-decoration: none;
+  text-decoration: none;
+}
+
+/* 去除 ie6 & ie7 焦点点状线 */
+a:focus,
+*:focus {
+  outline: none;
+}
+
+/* 清除浮动 */
+.clearfix::before,
+.clearfix::after {
+  content: "";
+  display: table;
+}
+
+.clearfix::after {
+  clear: both;
+}
+
+.clearfix {
+  zoom: 1;
+  /* for ie6 & ie7 */
+}
+
+
+
+
+/*公共类*/
+.w {
+  /*版心 提取 */
+  width: 1032px;
+  margin: 0 auto;
+}
+
+.fl {
+  float: left
+}
+
+.fr {
+  float: right
+}
+
+.al {
+  text-align: left
+}
+
+.ac {
+  text-align: center
+}
+
+.ar {
+  text-align: right
+}
+
+.hide {
+  display: none
+}
+
+.block {
+  display: block;
+}
+
+.font12 {
+  font-size: 12px;
+}
+
+.font14 {
+  font-size: 14px;
+}
+
+.font16 {
+  font-size: 16px;
+}

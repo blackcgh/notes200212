@@ -1341,21 +1341,21 @@ http://www.itcast.cn/index.html?name=black&age=18#link
 **location对象属性（可读写）**
 
 ```js
-href					// 页面URL，修改URL会跳转新页面
-protocol			// 协议
-hostname			// 主机名（域名）
-port					// 端口号，默认端口的port是空字符串
-pathname			// 路径
-search				// 参数
-hash					// 片段
+href							// 页面URL，修改URL会跳转新页面
+protocol					// 协议
+hostname					// 主机名（域名）
+port							// 端口号，默认端口的port是空字符串
+pathname					// 路径
+search						// 参数
+hash							// 片段
 ```
 
 **location对象方法**
 
 ```js
-assign('url')	// 重定向页面
-replace('url')// 替换当前页面，不记录历史
-reload()			// 重新加载页面。相当于浏览器刷新；参数为true时会强制刷新
+assign('url')			// 重定向页面
+replace('url')		// 替换当前页面，不记录历史
+reload()					// 重新加载页面。相当于浏览器刷新；参数为true时会强制刷新
 ```
 
 ---
@@ -1369,9 +1369,15 @@ window.history包含浏览器的历史记录，用于加载历史列表的上一
 **history对象方法**
 
 ```js
-back()				// 后退
-forword()			// 前进
-go(n)					// 正整数表示前进、负整数表示后退
+back()						// 后退
+forword()					// 前进
+go(n)							// 正整数表示前进、负整数表示后退
+pushState(data, title, targetURL)								// 添加浏览历史
+/* data: 数据对象，常用空对象
+	 title: 页面标题，但浏览器会忽略，常用''
+	 targetURL: 目标URL，不能跨域，会拼接或修改location.pathname
+*/
+history.replaceState(data, title, targetURL)		// 跟pushState一样只不过是修改当前历史状态
 ```
 
 ---
@@ -1887,6 +1893,8 @@ var add = (function() {				// 形成闭包，add就是一个闭包函数
 ### JS this指向
 
 **this的指向是在调用函数的时候确定的，一般指向调用它的对象，可以通过 JS 提供的方法更改this指向。**
+
+==注意：数组、对象属性中的this指向window。==
 
 | this所在位置   | this指向         |
 | -------------- | ---------------- |

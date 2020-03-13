@@ -153,7 +153,7 @@ $ git config --global user.email "x@x.x"
 
 ### 命令
 
-- 链接远程仓库
+- 关联远程仓库
 
   ```shell
   $ git remote <-v>												# 显示所有远程仓库

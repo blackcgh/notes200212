@@ -225,22 +225,37 @@ copyFile('src','dest',fn(err))					// 拷贝文件
 rename('oldpath','newpath',fn(err))			// 重命名、移动文件
 readFile('path'[,'e'],fn(err,data))			// 读取文件。e值：'utf8'。默认null(返回Buffer)
 writeFile('file','data'[,'e'],fn(err))	// 写入文件,会覆盖原文件内容。e默认utf8
-appendFile('path','data',fn(err))				// 追加文件或创建文件
+appendFile('path','data',fn(err))				// 追加或创建文件
 
 // 目录
 mkdir('path',fn(err))										// 创建目录
 rmdir('path',fn(err))										// 删除空目录
 readdir('path'[,'e'],fn(err,files))			// 读取目录下的所有内容，files是数组
+
+// stream
+createReadStream('path')								// 
+createWriteStream('path')								// 
 ```
 
 **例子**
 
 ```js
+const http = require('http')
 const fs = require('fs');
-fs.readFile('a.txt', (err, data) => {
-  if(!err) {
-    fs.writeFile('a.txt', data.toString()+'追加内容', err => {...})		// 追加写入
-  }
+const options = {
+  flag = 'a';																			 // 追加写入，flag默认是'w'(覆盖原内容)
+}
+fs.writeFile('a.txt', appendContent, options,  err => {...})
+
+const readStream = fs.createReadStream('a.txt');	 // 文件IO
+const writeStream = fs.createWriteStream('b,txt');
+readStream.pipe(writeStream);
+readStream.on('end', () => {
+  console.log('copy done')
+})
+
+const server = http.createServer((req, res) => {	 // 文件IO、网络IO
+  readStream.pipe(res)
 })
 ```
 
@@ -327,7 +342,7 @@ const path = require('path');
 path.basename('foo/a.html', '.html');		 // a
 path.dirname('foo/bar/a.txt');					 // foo/bar
 path.extname('a.html')									 // .html
-path.join(__dirname, 'index.html')			 // 常用来拼接文件的绝对路径
+path.join(__dirname, 'index.html')
 path.resolve('/foo', '/baz')						 // '/baz'
 path.resolve('foo', 'baz')						 // '/foo/baz',还未生成绝对路径，则再加上当前工作目录
 let obj = path.parse('/home/user/file.txt')
@@ -346,16 +361,80 @@ let obj = path.parse('/home/user/file.txt')
 
 - art-template：模板引擎
 
-- mongoose：连接操作 MongoDB 数据库（对官方 mongodb 模块进行了封装）
+- moment：时间操作
+
+- cross-dev：设置环境变量，快速切换环境
+
+- mongoose：连接操作 MongoDB 数据库
 
 - mysql：操作 mysql 数据库
 
-- moment：时间操作
+- redis：操作 redis 数据库
+
+  ```js
+  npm i redis
+  
+  const redis = require('redis')
+  let host = '127.0.0.1';
+  let port = 6379;
+  const client = redis.createClient(port, host);
+  client.on("error", (error) => {...});
+  client.set("key", "value", redis.print);
+  client.get("key", redis.print);
+  ```
+
+- connect-redis：配合express-session使用，用于将session数据存储在redis中，此模块基于redis
+
+  ```js
+  npm install redis connect-redis express-session
+  
+  const redis = require('redis')
+  const session = require('express-session')
+  let RedisStore = require('connect-redis')(session)
+  let redisClient = redis.createClient(6379, '127.0.0.1')
+  app.use(
+    session({
+      store: new RedisStore({ client: redisClient }),
+      cookie: {},
+      secret: 'keyboard cat',
+    })
+  )
+  ```
+
+- blueimp-md5：加密，常用于对密码加密，数据库存储的是加密后的密码
+
+  ```js
+  npm i blueimp-md5
+  const md5 = require('blueimp-md5')
+  password = md5(md5(password))	// 一般使用二次加密
+  ```
+
+- json-server：指定一个json文件作为 api 的数据源，运行在Express服务器，支持跨域、jsonp、路由等功能
+
+  ```js
+  npm i json-server -g
+  
+  json-server --watch --port 3000 db.json
+  /* 请求方式：
+  	 get			查询（可过滤、分页、排序、范围查询）
+  	 post			新增
+  	 put			修改
+  	 delete		删除 */
+  ```
+
+- http-server：本地服务，可让指定目录下的所有文件同域
+
+  ```js
+  npm i http-server -g
+  
+  http-server										// 启动服务，该目录成为服务器目录，可发送Ajax请求
+  http-server -p 3000						// 指定监听端口
+  ```
 
 - formidable：解析表单数据和文件上传
 
   ```js
-  npm i -S formidable																	// 安装
+  npm i -S formidable
   
   const formidable = require('formidable')						// 导入
   const form = new formidable.IncomingForm();					// 使用
@@ -491,503 +570,15 @@ const mname = require('模块标识')
 
 
 
-## Node 框架
-
-### Express 概述
-
-- Express 是一个基于 Node 平台的 web 应用开发框架，==完全由路由、中间件构成==
-- Express 不对 Node 已有的特性进行二次抽象，只是在它之上扩展了 Web 应用所需的基本功能
-- ==Express 对核心模块 http 进行了封装，使用起来比 http 更简单，而且还能继续使用 http 模块的 API==
-- Express 支持链式编程
-
----
-
-
-
-### 安装
-
-```js
-npm i express --save
-```
-
-**导入 express 模块：**
-
-```js
-const express = require('express')		// express 是模块导出的顶级函数、对象
-
-let app = express();
-app.get('/', (req, res) => {					// 链式编程
-  res.send('get');
-})
-.post('/',(req, res) => {
-  res.send('post');
-})
-.listen(7777, err => {
-	const.log('running')
-})
-```
-
-**express 函数/对象**
-
-```js
-express()															// 创建并返回 express 对象
-express.Router([options])							// 创建路由器，用于模块化管理路由
-express.static('root'[,options])			// 用于提供托管静态资源的服务
-```
-
-**app 对象方法**
-
-```js
-// 方法
-method('path',fn(req,res)[,fn,..])		// method 可以是get、post、all
-listen(port,[,host,fn])								// 启动服务器
-use(['path'],fn(req,res,next)[,fn,..])// 将中间件函数安装在指定路径上，请求路径匹配时执行中间件
-engine('ext', fn)											// 
-route('path')													// 返回指定路径的router对象，可省略method方法的path参数
-```
-
----
-
-
-
-### 路由
-
-**路由：**指应用程序如何响应对特定请求方式、URL的客户端请求。添加路由的格式为
-
-```js
-app.method('path', fn(req,res)[,fn,...])
-/* method：get、post、all
-	 path：字符串、字符串模式('/ab?cd')、正则表达式(/a/)
-*/
-```
-
----
-
-**路由器对象：**对路由进行模块化。可将所有路由定义在路由器对象上，再将路由器对象挂载到服务器对象上
-
-```js
-let router = express.Router()
-router.get('/', (req, res) => {
-  res.send('get');
-})
-.post('/',(req, res) => {
-  res.send('post');
-})
-app.use(router)
-```
-
-**router 对象方法**
-
-```js
-method('path',fn(req,res)[,fn,..])		// method 可以是get、post
-route('path')													// 返回指定路径的router对象，可省略method方法的path参数
-use(['path',]fn(req,res,next)[,fn,..])// 类似app.use()
-```
-
-**注意：**
-
-- ==路由的匹配不包括 URL 的查询参数==
-- ==存在多个回调函数时，函数参数除了req，res，还有 next==
-
----
-
-
-
-### app.use()
-
-将一个或多个中间件函数安装在指定的路径上，当所请求路径以 path 开头时，将执行中间件函数
-
-```js
-app.use(['path'，] callback([req, res, next]) [，callback ...])
-/* path：匹配以该路径开头的路径，默认是'/'
-	 callback：可以是函数、 router 对象。callback 有三个参数：next 函数用于匹配执行下一个中间件
-```
-
-**常用路由：**
-
-```js
-app.use()				// 万能匹配，只要以指定 path 开头的路径，都能执行函数
-app.get()				// 需要是 get 请求、指定路径才能执行函数
-app.post()			// 需要是 post 请求，指定路径才能执行函数
-```
-
-**注意：**
-
-- use 的中间件参数 request 的属性 url 是不包含 path 部分的
-- 这三个方法都可以指定多个中间件函数，也是需要通过 next 来执行下一个中间件
-- ==同一请求、同一路径下的方法的 request、response 对象相同。==use 方法可看做任何一种请求
-
----
-
-
-
-#### 静态资源
-
-对于需要对外公开访问的静态文件，可以使用 `express.static` 内置中间件来托管。
-
-```js
-app.use(express.static('public'))// 设置当前目录下的 public 目录对外开放访问
-```
-
----
-
-
-
-#### 中间件
-
-Express是一个功能极简，完全是路由和中间件构成的一个web开发框架。从本质上来说，一个 Express 应用就是在调用各种中间件。==中间件只能在 Express 中使用。==
-
-**中间件（Middleware）是一个函数，参数有 request、response、next。** next 用于匹配执行下一个中间件。
-
-**中间件函数：**
-
-```js
-let middleware = function(req, res, next) {
-  ...
-  next();
-}
-```
-
-**分类：**
-
-- 内置中间件
-
-  - express.static('root')：用于托管静态资源，root是指定提供静态资源的根目录，可设置多个目录
-
-    ```js
-    app.use(express.static(path.join(__dirname.'public'))// 将当前目录下的public对外开放
-    app.use('/static', express.static('public'))	// 当请求路径以'static'开头，就执行函数
-    ```
-
-- 第三方中间件
-
-  - **body-parser：**用于解析 post 请求体
-
-    ```js
-    npm install body-parser --save								// 安装
-    
-    const bodyParser = require('body-parser')
-    app.use(bodyParser.urlencoded({extended: false}))
-  app.use(bodyParser.json())										// 然后 request 对象就有一个属性 body
-    ```
-
-  - **cookie-parser：**解析客户端传过来的 cookie
-  
-    ```js
-    npm install cookie-parser --save
-    
-    let cookieParser = require('cookie-parser');
-    app.use(cookieParser());											// 然后 request 就有一个属性 cookies
-    ```
-    
-  - **cookie-session：**建立基于 cookie 的 session。该中间件会自动设置响应头中的 set-cookie
-  
-    ```js
-    npm install cookie-session --save
-    
-    const cookieSession = require('cookie-session');
-    app.use(cookieSession({
-      name: 'sessionID',	// cookie 名称，常用sessionID
-      keys: ['iisblack']	// 加密和解密cookie值的秘钥列表。keys[0]加密，其他的keys用来解密
-    }))
-    
-    // 然后 request 就有一个属性 session，可以添加/获取 session 数据
-    req.session.info = true				// 添加 session 数据，用于记录客户端状态
-    req.session.info							// 获取 session 数据
-    // 注意：默认 session 数据是内存存储的，服务器重启就会丢失，实际开发会将Session进行持久化存储
-    ```
-  
-  - **Express-art-template：**在 express 中使用模板引擎
-  
-    ```js
-    npm install --save art-template
-    npm install --save express-art-template							// 整合了express/art-template
-    
-    app.engine('html', require('express-art-template'));// 规定模板引擎渲染 html 文件
-    
-    res.render('index.html', {								// 在views目录找模板文件并渲染，再发送响应
-      name: 'black',
-    });
-    ```
-  
-    修改视图目录（默认是 views ）
-  
-    ```js
-    app.set('views', 'newdir')
-    ```
-
----
-
-
-
-### express-generator
-
-通过应用生成器工具 `express-generator` 可以快速创建一个应用的骨架。安装：
-
-```shell
->npm install express-generator -g
-```
-
-然后可以在命令行使用命令 express
-
-```shell
->express -h									# 使用手册
-```
-
-创建 Express 应用
-
-```shell
->express --view=pug myapp		# 在当前目录下创建 myapp 目录，使用 pug 模板引擎
-```
-
-进入项目目录，启动应用；然后可以访问http://localhost:3000/
-
-```shell
->npm install
->set DEBUG=myapp:* & npm start
-```
-
-目录结构
-
-```js
-├── app.js
-├── bin
-│   └── www
-├── package.json
-├── public
-│   ├── images
-│   ├── javascripts
-│   └── stylesheets
-│       └── style.css
-├── routes
-│   ├── index.js
-│   └── users.js
-└── views
-    ├── error.pug
-    ├── index.pug
-    └── layout.pug
-```
-
----
-
-
-
-### API
-
-**express**
-
-```js
-express()															// 创建并返回 express 对象
-express.Router()											// 创建路由器中间件，用于挂载在 express 实例上
-express.static('root')								// 用于托管静态资源，是 Express 唯一内置的中间件
-```
-
-**app 对象方法**
-
-```js
-method('path', fn)									 // method 可以是get、post、all
-all('path', fn)											 // 适用于所有 HTTP 请求，用于加载中间件功能
-listen(port, fn)				 						 // 启动服务器
-engine('ext', fn)									 	 // 根据文件扩展名的不同，使用不同的模板引擎(fn)
-set('name','value')									 // 设置属性，可修改视图目录（默认是views）
-route('path')												 // 返回指定路径的router对象，可省略method方法的path参数
-use(['path'], fn)									 	 // 将中间件或router安装在指定路径，请求路径匹配时执行中间件
-```
-
-**request 对象**
-
-```js
-// 属性
-protocol															// 获取请求的协议
-hostname															// 获取请求的主机名
-ip																		// 获取请求的ip
-path																	// 获取请求路径
-method																// 获取请求的方式
-params																// 获取路由的参数
-route																	// 获取当前匹配的路由
-query																	// 获取请求URL的查询参数
-
-body																	// body-parse添加的属性对象，存储post数据的键值对格式
-cookies																// cookies-parse添加的属性对象，存储请求发来的cookie
-session																// 使用中间件添加的属性对象
-
-// 方法
-get('type')														// 获取指定的请求头
-```
-
-**response 对象方法**
-
-```js
-set('name','value')										// 设置响应头，对象形式可以设置多个
-status(n)															// 设置响应的状态码
-send(body)														// 发送响应，自动设置content-type。值:str|buffer|obj
-json(body)														// 发送JSON格式的响应，会将body转为JSON字符串
-jsonp(body)														// 发送支持JSONP的JSON格式响应，等于callback(body)
-cookie('name','value'[,options])			// 设置cookie
-clearCookie()													// 清除cookie
-download('path')											// 传输文件
-sendFile('path')											// 传送文件,自动根据文件扩展名设置Content-Type
-redirect([status,]'path')							// 设置状态码并重定向到指定的 URL
-render('path',obj)	// 从视图目录读取模板文件，根据扩展名使用模板引擎结合obj解析，发送响应、结束响应
-```
-
-**router 对象方法**
-
-```js
-method('path',fn)	  									// method 可以是get、post
-route('path')													// 返回指定路径的router对象，可省略method方法的path参数
-use(['path',]fn)											// 类似app.use()
-```
-
----
-
-
-
 ## Node 数据库操作
 
 ### MongoDB
 
-### 关系型数据库
-
-- 表就是关系，或者表与表之间存在关系
-
-- 所有的关系型数据库都需要通过sql结构化查询语言来操作。Sql Server、MySQL、Oracle。。。
-- 所有的关系型数据库在操作之前都需要设计表结构
-- 数据表还支持约束（保证数据完整性）
-  - 唯一的
-  - 主键
-  - 默认值
-  - 非空
-
----
-
-
-
-### 非关系型数据库
-
-- 非关系型数据库非常的灵活
-- 有些非关系型数据库（MongoDb）的数据结构直接就是键值对（key-value）
-
-- 但是MongoDB也是最像关系型数据库的非关系型数据库
-
-  | 关系型数据库 | MongoDB      |
-  | ------------ | ------------ |
-  | 数据库       | 数据库       |
-  | 数据表       | 集合（数组） |
-  | 表记录       | 文档对象     |
-
-- MongoDB不需要设计表结构。也就是说创建数据库就可以直接往里面存数据
-
----
-
-### 下载安装
-
-下载：https://www.mongodb.com/download-center/community 
-
-安装：
-
--  将默认安装地址如:(C:\Program Files\MongoDB\Server\4.2)，改为:
-  (E:\Program Files\MongoDB\Server\4.2）
-- 安装过程中勾选install MongoDB compass
-
-配置环境变量：path=E:\Program Files\MongoDB\Server\4.2\bin
-
-测试
-
-```shell
-mongod --version
-```
-
----
-
-
-
-### 启动和关闭数据库
-
-启动：
-
-```shell
-# mongodb默认使用执行该命令所处盘符根目录下的/data/db作为数据存储目录
-# 所以在第一次执行该命令之前手动新建一个/data/db
-mongod
-```
-
-如果想要修改默认的数据存储目录，可以：
-
-```shell
-mongo --dbpath=数据存储目录路径
-```
-
-关闭：
-
-```shell
-ctrl+c
-或者直接关闭命令行界面
-```
-
----
-
-
-
-### 连接和退出数据库
-
-连接：
-
-```shell
-# 该命令默认连接本机的MongoDB服务
-mongo
-```
-
-退出：
-
-```shell
- exit
-```
-
----
-
-
-
-### 基本命令
-
-```shell
-# 显示所有数据库
->show dbs
-
-#查看当前操作的数据库
->db
-
-# 切换到指定的数据库，没有会自动新建
->use 数据库名称
-
-# 显示当前操作的数据库的所有集合（表）
->show collections
-
-# 查找当前数据库的某个集合的数据
->db.集合名称.find()
-```
-
----
-
-
-
-### 在Node中操作MongoDB数据
-
-#### 官方的MongoDB包
-
-Node提供了MongoDB包来操作（原生的，较为繁琐）
-
-官方： https://github.com/mongodb/node-mongodb-native 
-
-
+Node 官方提供了 MongoDB 包来操作（原生，繁琐）：[官网](https://github.com/mongodb/node-mongodb-native)
 
 #### mongoose
 
-第三方包mongoose基于官方的MongoDB包再一次做了封装（操作简单）
-
-网址： https://mongoosejs.com/docs/guide.html
-
-中文文档：   https://mongoose.kkfor.com/models.html 
+第三方包 mongoose 基于官方的 MongoDB 包再一次做了封装，==而且mongoose的API支持promise==。[中文文档](https://mongoose.kkfor.com/models.html)
 
 安装：
 
@@ -995,7 +586,7 @@ Node提供了MongoDB包来操作（原生的，较为繁琐）
 npm install mongoose --save
 ```
 
-==mongoose的API支持promise==
+---
 
 
 
@@ -1006,17 +597,18 @@ Mongoose 的一切始于 Schema。每个 schema 都会映射到一个 MongoDB co
 创建schema，使用`mongoose.Schema( { 字段 } )`
 
 ```js
-  const mongoose = require('mongoose');
-  const Schema = mongoose.Schema;		//schema定义集合结构，集合有哪些字段
-  const blogSchema = new Schema({		//创建一个schema
-    title: {
-      type: String,			//SchemaType,字段类型
-      required: true, 	//必填
-      default: '主题'	   //默认值
-    },
-    author: String
-  });
+const mongoose = require('mongoose');
+const blogSchema = new mongoose.Schema({		//定义集合结构有哪些字段
+  author: String
+  title: {
+    type: String,														//SchemaType,字段类型
+    required: true, 												//必填
+    default: '主题'	  											 //默认值
+  },
+});
 ```
+
+---
 
 
 
@@ -1027,9 +619,11 @@ Mongoose 的一切始于 Schema。每个 schema 都会映射到一个 MongoDB co
  把 schema 转换为 model， 使用 `mongoose.model(集合名称, schema)` 函数 ，返回一个模型构造函数
 
 ```javascript
-// 集合名称首字母大写，mongoose会将其转变为 小写复数
-const Blog = mongoose.model('Blog', blogSchema);
+const Blog = mongoose.model('Blog', blogSchema);// 集合名称首字母大写，会将其转变为小写复数
+const Blog = mongoose.model('Blog', blogSchema, 'blog');// 连接blog数据库
 ```
+
+---
 
 
 
@@ -1037,86 +631,318 @@ const Blog = mongoose.model('Blog', blogSchema);
 
  Mongoose document代表着 MongoDB 文档的一对一映射。 每个 document 都是 model的实例 
 
-
-
 示例：
 
 ```js
 const mongoose = require('mongoose');
 
-// 1.连接MongoDB数据库，不管存不存在该数据库
-mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true});
-
-// 2.设计文档结构，属性就是集合的字段
-const catSchema = mongoose.Schema({
+mongoose.connect('mongodb://127.0.0.1:27017/test', {
+  useUnifiedTopology: true,
+  useNewUrlParser: true
+});
+const catSchema = new mongoose.Schema({					// 设计集合结构和设置字段
   name: {
     type: String,
     required: true
   }
 })
-
-// 3.将文档结构schema发布为模型构造函数model，mongoose,model的第一个参数的小写复数就是集合名称
-const Cat = mongoose.model('Cat', catSchema);
-
-// 4.创建document，使用模型构造函数创建实例
-const kitty = new Cat({ name: 'black' });
-
-// 将document添加到数据库
-kitty.save(function(err) {
-  if(err) console.log('保存失败')
+const Cat = mongoose.model('Cat', catSchema);		// 创建模型，第一个参数的小写复数就是集合名称
+const kitty = new Cat({ name: 'black' });				// 创建document实例
+kitty.save(function(data) {											// 添加到数据库
+  console.log(data)
 });
 ```
 
+---
 
 
-##### 添加（save）
+
+##### 添加（save/create）
 
 ```js
-document.save(function(err) {...})
-document,save().then(data => console.log(data))	// data是该文档对象
+document,save().then(data => console.log(data))	 // data 是文档对象
+model.create(docObj)
+model.insertMany([obj1, obj2, ...])							 // data 是数组
 ```
+
+---
 
 
 
 ##### 查询（find）
 
 ```js
-model.find(function(err,res) {
-  console.log(res)	// res是存储文档对象的数组
-})
-model.find().then(data => {})	// data是文档或空数组
-
-
-model.findOne({...},function(err,res) {})
-model.findOne({条件}).then(data => {})	// data是文档或null
+model.find([cons,pro,ops,callback])						 	// 查找满足条件的所有文档，data 是数组
+model.findOne(...)														  // 查找满足条件的第一条文档,data是文档或null
+model.findById(id,[pro,ops,callback])
+/* cons：查询条件
+	 pro：设置返回的字段
+	 ops：控制文档的排序、返回数目等
+	 callback：回调函数
+*/
+User.find()
+User.find({_id: 7})
+User.find({_id:7,pwd:'77'},{title:1,author:1})  // 返回title、author字段，_id字段默认返回
+User.findById(7)																// 查找_id为7的文档
 ```
+
+---
 
 
 
 ##### 更新（update）
 
 ```js
-model.updateOne({...}, {...}, function(err, res) {})
-model.updateOne({...}, {...}).then(data => {})
-
-model.updateMany({...}, {...}).then(data => {})
+model.update(cons,doc,[ops])										 // 更新满足条件的文档，默认只更新一条文档
+model.updateOne(...)
+model.updateMany(...)
+model.findByIdAndUpdate(id,doc,[ops])						 // 根据_id查找并更新文档
+/* cons：查询条件
+	 doc：需要修改的数据，不能修改主键（_id）
+	 ops：控制选项，参数有
+	 							 upsert (boolean)： 默认false。如果不存在则创建新记录
+　　							multi (boolean)： 默认false。是否更新多个查询记录
+　　							setDefaultsOnInsert： 如果upsert为true，在新建时插入文档定义的默认值
+*/
+User.update({title: "css"}, {author: "L"}, {multi: true})
+model.findByIdAndUpdate(7,{author: "L"})
 ```
+
+---
 
 
 
 ##### 删除（delete）
 
 ```js
-model.deleteOne({...}, function(err) {})
-model.deleteOne({条件}).then(data => {})
-
-model.deleteMany({...}, function(err) {})
-model.deleteMany({条件}).then(data => {})
+model.deleteOne(cons)															// 删除满足条件的第一条文档
+model.deleteMany(cons)														// 删除满足条件的所有文档
+model.findByIdAndRemove(id,[ops])									// 根据_id删除文档
 ```
 
 ---
 
-==save()、find()、updateOne()、deleteOne()等API都会返回promise==
+
+
+#### 模块化
+
+
+
+---
+
+
+
+#### 预定义模式修饰符
+
+**作用：对插入的数据进行一些格式化。**
+
+- trim：是否去除前后空格
+
+- lowercase：转为小写
+
+- uppercase：转为大写
+
+  ```js
+  const UserSchema = new mongoose.schema({
+    name: {
+      type: String,
+      require: true,
+      defaule: '默认',
+      trim: trim,
+      lowercase: true
+    }
+  })
+  ```
+
+**自定义模式修饰符**
+
+- Setters
+
+  ```js
+  const UserSchema = new mongoose.schema({
+    name: {
+      type: String,
+      set(param) {...}							// param是实际传过来的值，返回的数据才会存进数据库
+  
+    }
+  })
+  ```
+
+- Getters
+
+---
+
+
+
+#### 索引
+
+- unique：唯一索引
+
+- index：普通索引
+
+  ```js
+  const UserSchema = new mongoose.schema({
+    name: {
+      type: String,
+      index: true
+    }
+  })
+  ```
+
+---
+
+
+
+#### 静态方法
+
+```js
+const UserSchema = new mongoose.schema({...})
+UserSchema.static.newFn() {}			// model 可以使用 newFn 方法
+```
+
+---
+
+
+
+#### 默认参数
+
+- default：设置默认值
+
+---
+
+
+
+#### 数据校验
+
+- required：是否必填
+
+- max：用于Number类型数据的最大值
+
+- min：用于number类型数据的最小值
+
+- maxlength：用于String类型数据的最大值
+
+- minlength：用于String类型数据的最小值
+
+- match：增加的数据必须符合正则规则
+
+- enum：枚举类型，要求数据必须满足枚举值
+
+  ```js
+  const UserSchema = new mongoose.schema({
+    name: {
+      type: String,
+      required: true,
+      minlength: 0,
+      maxlength: 7,
+      enum: ['s', 'f'],
+      macth: /^s$/
+    }
+  })
+  ```
+
+---
+
+
+
+#### 数据类型
+
+- String
+
+- Number
+
+- Boolean
+
+- Array
+
+- Date
+
+- Buffer
+
+- ObjectId
+
+  ```js
+  new mongoose.schema({
+    name: mongoose.Schema.Types.ObjectId
+  })
+  ```
+
+---
+
+
+
+#### 聚合管道
+
+可以对文档进行变换和组合，同一操作符可使用多次。文档进入管道经过一个或多个stage，每个stage对数据进行操作（筛选，投射，分组，排序，限制或跳过）后输出最终结果。
+
+==注意：ObjectID类型的值不能只有字符串操作，而find等方法可以使用字符串操作ObjectID类型。==
+
+```js
+order.aggregate([
+  {
+    $lookup: {								// 获取order_item集合符合条件的所有文档，以数组形式作为order字段
+      from:"order_item",			// 关联 order_item集合
+      localField:"order_id",	// order集合的order_id字段
+      foreignField:"order_id",// order_item集合的order_id字段
+      as:"item"								// order新生成的字段名称
+    }
+  },
+  {
+    $project: {price: 1}			// 只返回 price 字段
+  },
+  {
+    $match: {
+        "price": {$ge: 90},		// 过滤掉 price>90的文档
+      	bid: mongoose.Types.ObjectId(bid)
+    }
+	},
+  {
+    $group:{_id:"$order_id"}	// 按 _id 进行分组
+	},
+  {
+    $sort:{price:1}						// 按 price 进行排序（升序）
+	},
+  {
+    $limit:1									// 只返回一条文档
+	},
+  {
+    $skip:1										// 跳过一条文档
+	}
+])
+/* order是一个集合，aggregate是聚合方法，参数是数组，每个数组元素都是一个stage，对数据进行处理，处理	 	  完流到下一个stage
+```
+
+| 管道操作符 | 描述                                                         |
+| ---------- | ------------------------------------------------------------ |
+| $project   | 投射操作符，重构每一个文档的字段，可以提取、重命名、增加、删除字段 |
+| $match     | 匹配操作符，筛选文档                                         |
+| $group     | 分组操作符，分组文档                                         |
+| $unwind    | 拆分操作符，将集合中的每一个值拆分为单独的文档               |
+| $sort      | 排序操作符，根据一个或多个字段对文档进行排序，1为升序，-1为降序 |
+| $limit     | 限制操作符，限制返回文档的数量                               |
+| $skip      | 跳过操作符，跳过指定数量的文档                               |
+| $count     | 统计操作符，统计文档的数量                                   |
+| $lookup    | 连接操作符，连接同一个数据库中另一个集合，并获取指定的文档，类似populate |
+
+---
+
+
+
+#### 备份恢复
+
+导出数据库
+
+```shell
+mongodump -h <host> -d <dbname> -o <dbpath>
+# 将主机host的数据库dbname导出为绝对路径dbpath文件夹
+```
+
+导入数据库
+
+```shell
+mongorestore -h <host> -d <dbname> <dbpath>
+# 将主机host的绝对路径dbpath文件夹导入为数据库dbname
+```
 
 ---
 
@@ -1125,8 +951,6 @@ model.deleteMany({条件}).then(data => {})
 ### MySQL
 
 Node 提供了一个操作 MySQL 的第三方包 mysql。[官方]( https://www.npmjs.com/package/mysql )
-
-MySQL 可视化工具：Navicat、phpmyadmin（wamp web 工具）。
 
 **安装：**
 
@@ -1139,14 +963,14 @@ npm i mysql -S
 ```js
 const mysql = require('mysql')
 let db = mysql.createConnection({				// 创建一条连接
-  host: 'localhost',										// 主机 ip 地址
-  port: 3306,														// 端口，默认3306
+  host: 'localhost',										// 主机
+  port: 3306,														// 端口
   user: 'root',													// 用户名
   password: '',													// 密码
   database: '2019123'										// 数据库名
 })
 db.connect();														// 连接数据库
-db.query('SELECT * FROM user_table WHERE id>2', (err, data) => {	// 数据库操作成功时回调
+db.query('SELECT * FROM user_table', (err, data) => {		// 数据库操作成功时回调
   ...
 })
 
@@ -1175,6 +999,51 @@ const co = require('co-mysql')
 let conn = mysql.createPool({...});
 let db = co(conn);
 let data = db.query('...')	// data就是返回结果
+```
+
+---
+
+
+
+### Redis
+
+安装
+
+```shell
+npm i redis --save
+```
+
+使用
+
+```js
+const redis = require('redis')
+const redisClient = redis.createClient(6379,'127.0.0.1')	// 创建客户端
+
+client.on('connect', () => {
+    console.log('Redis client connected');
+}
+
+redisClient.on('error', err => {
+  console.log(err)
+})
+
+redisClient.set('name', 'black', redis.print);				// 设置键值对,print输出是否设置成功
+redisClient.get('name', (err, val) => {								// 获取键值，
+  if(err) {
+    console.log(err);
+    return;
+  }
+  console.log('val:', val)														// get是异步的，需要promise返回数据
+})
+```
+
+**API**
+
+```js
+set(key, value, fn(err, data))												// 成功时 data 是 'OK'
+get(key, fn(err, data))																// 成功时 data 是键的值，否则是 null
+keys('*', fn(err, data))															// 成功时 data 是包含键的数组
+del(key, fn(err, data))																// 成功 data 是1，否则是0
 ```
 
 ---
@@ -1433,27 +1302,6 @@ nodemon app.js
 
 
 
-### 加密中间件blueimp-md5
-
-对于密码之类的隐秘数据，为了防止开发人员看见，所以要通过加密工具加密后再存进数据库
-
-安装：
-
-```shell
-npm i blueimp-md5
-```
-
-使用：
-
-```js
-const md5 = require('blueimp-md5')
-password = md5(md5(password))	// 一般使用二次加密
-```
-
----
-
-
-
 ### 文件操作的相对路径问题
 
 在文件操作时，比如readFile、writeFile等，相对路径是指在终端执行node命令所在的目录，也就是说，在哪个目录下执行node命令，./就是该目录。而在不同的目录下执行node命令，./是不一样的，这样很容易出错。
@@ -1510,61 +1358,116 @@ require('./a.js')		// 这里的./就是当前文件所处目录
 
 
 
-### session和cookie
+### Cookie/Session
 
- **为什么要使用Cookie？**
+#### Cookie
 
 web程序是使用HTTP协议传输的，而HTTP协议是无状态的协议，对于事务处理没有记忆能力。缺少状态意味着如果后续处理需要前面的信息，则它必须重传，这样可能导致每次连接传送的数据量增大。另一方面，在服务器不需要先前信息时它的应答就较快
 
+---
 
-
-**Cookie的使用**
+**Cookie使用：**
 
 先要看需求，因为浏览器可以禁用Cookie， 同时服务端也可以不Set-Cookie。 
 
-客户端向服务器端发送一个请求的时，服务端向客户端发送一个Cookie 然后浏览器将Cookie保存，Cookie有两种保存方式，一种是浏览器会将CCookie保存在内存中，还有一种是保存在客户端的硬盘中，之后每次HTTP请求浏览器都会将Cookie放在请求头中，再发送给服务器端。
+客户端向服务器端发送一个请求时，服务端向客户端发送一个Cookie，然后浏览器将Cookie保存，Cookie有两种保存方式，一种是浏览器会将Cookie保存在内存中，还有一种是保存在客户端的硬盘中，之后每次HTTP请求浏览器都会将请求域的Cookie放在请求头中，再发送给服务器端（浏览器会管理每一个域名下的cookie，cookie不能跨域）。
 
-举例：
+**每次访问时浏览器都会将本次访问的域名的cookie加在请求头中。**
+
+**举例：**
 
 分登录之前和登录后，登录前服务端给浏览器一个Cookie，但是这个Cookie里面没有用户信息，但是登录成功之后，服务端给浏览器一个Cookie，这个时候的Cookie已经记录了用户的信息，在系统内任意访问，可以实现免登录。
 
+---
+
+**操作Cookie**
+
+- 浏览器
+  - 查看cookie：Network、Application、Console
+  - 修改cookie：`document.cookie（获取cookie，或将设置的值追加给cookie，可通过httpOnly禁止）`
+- 服务器（Node.js）
+  - 获取cookie：`req.headers.cookie`，格式为`k1=v1;k2=v2;..`
+  - 设置cookie：`res.setHeader('Set-Cookie', 'k1=v1;k2=v2;..')`
+
+---
+
+**Cookie组成：**
+
+`Set－Cookie: Name=Value；Expires=DATE；Path=PATH；Domain=NAME;maxAge=1000；SECURE;httpOnly`
+
+- Name=Value：这是每一个Cookie都必须有的部分。Name是该Cookie的名称，Value是该Cookie的值。**对于认证Cookie，Value值包括Web服务器所提供的访问令牌。**
+- Expires=DATE：用于确定Cookie的有效日期。系统只识别特定的格式的DATE。该变量默认Cookie的属性值不会保存在用户的硬盘中，而是保存在内存当中。
+- Domain=DOMAIN-NAME：用于指定哪些 Web 站点或域可以访问浏览器存取的Cookie，即只有来自这个域的页面才可以使用Cookie中的信息。该变量默认为该Web服务器的域名。
+- Path=PATH：定义了Web服务器上哪些路径下的页面可获取服务器设置的Cookie。只要用户输入的URL中的路径部分以 Path 属性开头，浏览器就认为通过检查。如果Path属性的值为“/”，则Web服务器上所有的WWW资源均可读取该Cookie。该变量 Path 属性值为 Web 服务器传给浏览器的资源的路径名。
+- Secure：表明只有当浏览器和Web Server之间的通信协议为加密认证协议时，浏览器才向服务器提交相应的Cookie。当前只有HTTPS协议
+- httpOnly：用于禁止客户端 js 脚本读取 cookie 信息
+- maxAge：cookie有效毫秒
+
+==借助 Domain 和 Path，即可有效控制 Cookie 被访问的范围。==而Domain一般使用默认值，所以只需设置Path='/'
+
+**例子：**
+
+```
+res.setHeader("Set-Cookie", "username=black;Path=/;Max-Age=seconds;HTTPOnly");
+```
+
+---
+
+**Cookie生存周期：**
+
+Cookie在生成时就会被指定一个Expire值，这就是Cookie的生存周期，在这个周期内Cookie有效，超出周期Cookie就会被浏览器清除。有些页面将Cookie的生存周期设置为“0”或负值，这样在关闭浏览器时，就马上清除Cookie，不会记录用户信息，更加安全。
+
+---
+
+**Cookie特点：**
+
+- cookie是存储在浏览器的一段字符串
+- 跨域不共享
+- 格式：k1=v1;k2=v2；因此可以存储结构化数据
+
+**Cookie弊端：**
+
+- 数量受到限制 
+
+- 存储信息不安全，而且客户端可以通过JS修改cookie
+
+- 浏览器可以禁用Cookie，禁用Cookie后，就无法享有Cookie带来的方便 
+
+---
 
 
-**Cookie的生存周期？**
 
-Cookie在生成时就会被指定一个Expire值，这就是Cookie的生存周期，在这个周期内Cookie有效，超出周期Cookie就会被清除。有些页面将Cookie的生存周期设置为“0”或负值，这样在关闭浏览器时，就马上清除Cookie，不会记录用户信息，更加安全。
+#### Session
 
+因为很多第三方可以获取到这个Cookie，服务器无法判断Cookie是不是真实用户发送的，所以Cookie可以伪造，伪造Cookie实现登录进行一些HTTP请求。如果从安全性上来讲，Session比Cookie安全性稍微高一些，我们先要知道一个概念--SessionID。客户端第一次请求服务器的时候，服务器会为客户端创建一个Session，并将通过特殊算法算出一个session的ID，下次请求资源时（Session未过期），浏览器会将sessionID(实质是Cookie)放置到请求头中，服务器接收到请求后就得到该请求的SessionID，服务器找到该id的session返还给请求者使用。
 
+---
 
-**Cookie的缺点**
+**Session生命周期**
 
-1.  数量受到限制 
-2. 不安全
-3.  浏览器可以禁用Cookie，禁用Cookie后，也就无法享有Cookie带来的方便 
+一般来说是半小时。例如登录一个服务器，服务器返回给你一个sessionID，登录成功之后的半小时之内没有对该服务器进行任何HTTP请求，半小时后你进行一次HTTP请求，会提示你重新登录。
 
-
-
-**为什么要使用Session？**
-
-因为很多第三方可以获取到这个Cookie，服务器无法判断Cookie是不是真实用户发送的，所以Cookie可以伪造，伪造Cookie实现登录进行一些HTTP请求。如果从安全性上来讲，Session比Cookie安全性稍微高一些，我们先要知道一个概念--SessionID。SessionID是什么？客户端第一次请求服务器的时候，服务器会为客户端创建一个Session，并将通过特殊算法算出一个session的ID，下次请求资源时（Session未过期），浏览器会将sessionID(实质是Cookie)放置到请求头中，服务器接收到请求后就得到该请求的SessionID，服务器找到该id的session返还给请求者使用。
-
-
-
-**Session的生命周期？**
-
-根据需求设定，一般来说，半小时。举个例子，你登录一个服务器，服务器返回给你一个sessionID，登录成功之后的半小时之内没有对该服务器进行任何HTTP请求，半小时后你进行一次HTTP请求，会提示你重新登录。
-
-
+---
 
 **Session缺点**
 
-Session是存储在服务器当中的，所以Session过多，会对服务器产生压力。
+- Session是存储在服务器中的，如果SessionId过多，会对服务器产生压力，还会耗费内存
+- 多线程之间无法共享数据
+- Session是存储在内存中，一旦关闭服务器，Session将不复存在
 
-cookie与session的区别：
+==常用Redis（内存数据库）来存储session数据。==
 
-- cookie以文本格式存储在浏览器上，存储量有限；会话存储在服务端，可以无限量存储多个变量
--  Session比Cookie更具有安全性 
--  Session占用服务器性能，Session过多，增加服务器压力 
+---
+
+**与Cookie区别：**
+
+- cookie以文本格式存储在浏览器上，存储量有限；session存储在服务端，可以无限量存储多个
+-  session比Cookie更具有安全性 
+-  session占用服务器性能，session过多会增加服务器压力 
+
+---
+
+
 
 
 
